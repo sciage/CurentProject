@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.RecyclerViewDetails.Person;
-import in.voiceme.app.voiceme.RecyclerViewDetails.RVAdapter;
+import in.voiceme.app.voiceme.PostsDetails.Person;
+import in.voiceme.app.voiceme.PostsDetails.RVAdapter;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 
 public class FollowersActivity extends BaseActivity {

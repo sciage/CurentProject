@@ -18,10 +18,10 @@ import java.util.List;
 import in.voiceme.app.voiceme.DiscoverPage.LikeUnlikeClickListener;
 import in.voiceme.app.voiceme.DiscoverPage.PostsCardViewHolder;
 import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserHugCounterActivity;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserLikeCounterActivity;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserListenCounterActivity;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserSameCounterActivity;
+import in.voiceme.app.voiceme.PostsDetails.UserHugCounterActivity;
+import in.voiceme.app.voiceme.PostsDetails.UserLikeCounterActivity;
+import in.voiceme.app.voiceme.PostsDetails.UserListenCounterActivity;
+import in.voiceme.app.voiceme.PostsDetails.UserSameCounterActivity;
 import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.PostsModel;
 
@@ -222,9 +222,9 @@ public class TotalPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         public void liked(LikeButton likeButton) {
 
-            int likeCounter = 0;
-            int hugCounter = 0;
-            int sameCounter = 0;
+            int likeCounter = Integer.parseInt(dataItem.getLikes());
+            int hugCounter = Integer.parseInt(dataItem.getHug());
+            int sameCounter = Integer.parseInt(dataItem.getSame());
             try {
                 if (myClickListener != null) {
                     myClickListener.onLikeUnlikeClick(dataItem, likeButton);

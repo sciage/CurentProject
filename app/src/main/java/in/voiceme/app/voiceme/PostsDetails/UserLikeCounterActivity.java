@@ -1,4 +1,4 @@
-package in.voiceme.app.voiceme.RecyclerViewDetails;
+package in.voiceme.app.voiceme.PostsDetails;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;

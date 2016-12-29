@@ -1,4 +1,4 @@
-package in.voiceme.app.voiceme.RecyclerViewDetails;
+package in.voiceme.app.voiceme.PostsDetails;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,15 +18,17 @@ import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.PostsModel;
 import rx.android.schedulers.AndroidSchedulers;
 
-public class UserCategoryActivity extends BaseActivity {
+
+public class UserFeelingActivity extends BaseActivity {
 
     private int mPage;
     private RecyclerView recyclerView;
-    private UserCategoryAdapter activityInteractionAdapter;
+    private UserFeelingAdapter activityInteractionAdapter;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_category);
+    protected void onCreate(Bundle savedState) {
+        super.onCreate(savedState);
+        setContentView(R.layout.activity_user_feeling);
         getSupportActionBar().setTitle("LoginUser Feelings");
         toolbar.setNavigationIcon(R.mipmap.ic_ab_close);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -35,7 +37,7 @@ public class UserCategoryActivity extends BaseActivity {
                 finish();
             }
         });
-        recyclerView = (RecyclerView) findViewById(R.id.user_category_recyclerview);
+        recyclerView = (RecyclerView) findViewById(R.id.user_feeling_recyclerview);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
@@ -47,6 +49,7 @@ public class UserCategoryActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
+
 
     @Override public String toString() {
         return "documentary";
@@ -65,7 +68,7 @@ public class UserCategoryActivity extends BaseActivity {
     }
 
     private void showRecycleWithDataFilled(final List<PostsModel> myList) {
-        activityInteractionAdapter = new UserCategoryAdapter(myList, this);
+        activityInteractionAdapter = new UserFeelingAdapter(myList, this);
         activityInteractionAdapter.setOnItemClickListener(new LikeUnlikeClickListener() {
             @Override public void onItemClick(PostsModel model, View v) {
                 String name = model.getIdUserName();
@@ -77,4 +80,6 @@ public class UserCategoryActivity extends BaseActivity {
         });
         recyclerView.setAdapter(activityInteractionAdapter);
     }
+
+
 }

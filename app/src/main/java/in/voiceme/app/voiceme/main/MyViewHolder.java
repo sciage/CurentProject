@@ -7,10 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserHugCounterActivity;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserLikeCounterActivity;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserListenCounterActivity;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserSameCounterActivity;
+import in.voiceme.app.voiceme.PostsDetails.UserHugCounterActivity;
+import in.voiceme.app.voiceme.PostsDetails.UserLikeCounterActivity;
+import in.voiceme.app.voiceme.PostsDetails.UserListenCounterActivity;
+import in.voiceme.app.voiceme.PostsDetails.UserSameCounterActivity;
 
 
 /**

@@ -1,23 +1,25 @@
-package in.voiceme.app.voiceme.RecyclerViewDetails;
+package in.voiceme.app.voiceme.PostsDetails;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.infrastructure.BaseActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserSameCounterActivity extends BaseActivity {
+import in.voiceme.app.voiceme.R;
+import in.voiceme.app.voiceme.infrastructure.BaseActivity;
+
+public class UserHugCounterActivity extends BaseActivity {
   private static final int REQUEST_VIEW_MESSAGE = 1;
   private List<Person> persons;
   private RecyclerView rv;
 
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
-    setContentView(R.layout.activity_user_same_counter);
-    getSupportActionBar().setTitle("Same LoginUser");
+    setContentView(R.layout.activity_user_hug_counter);
+    getSupportActionBar().setTitle("Hugs LoginUser");
     toolbar.setNavigationIcon(R.mipmap.ic_ab_close);
     toolbar.setNavigationOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -25,7 +27,7 @@ public class UserSameCounterActivity extends BaseActivity {
       }
     });
 
-    rv = (RecyclerView) findViewById(R.id.counter_same_recyclerview);
+    rv = (RecyclerView) findViewById(R.id.counter_hug_recyclerview);
 
     LinearLayoutManager llm = new LinearLayoutManager(this);
     rv.setLayoutManager(llm);

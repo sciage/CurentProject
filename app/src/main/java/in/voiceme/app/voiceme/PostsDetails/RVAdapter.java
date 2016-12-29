@@ -1,4 +1,4 @@
-package in.voiceme.app.voiceme.RecyclerViewDetails;
+package in.voiceme.app.voiceme.PostsDetails;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

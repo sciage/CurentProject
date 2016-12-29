@@ -74,23 +74,23 @@
             android:label="@string/title_activity_audio_status"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".RecyclerViewDetails.UserLikeCounterActivity"
+            android:name=".PostsDetails.UserLikeCounterActivity"
             android:label="@string/title_activity_feeling_details"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".RecyclerViewDetails.UserHugCounterActivity"
+            android:name=".PostsDetails.UserHugCounterActivity"
             android:label="@string/title_activity_user_hug_counter"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".RecyclerViewDetails.UserSameCounterActivity"
+            android:name=".PostsDetails.UserSameCounterActivity"
             android:label="@string/title_activity_user_same_counter"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".RecyclerViewDetails.UserListenCounterActivity"
+            android:name=".PostsDetails.UserListenCounterActivity"
             android:label="@string/title_activity_user_listen_counter"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".RecyclerViewDetails.UserFeelingActivity"
+            android:name=".PostsDetails.UserFeelingActivity"
             android:label="@string/title_activity_user_feeling"
             android:theme="@style/AppTheme" />
         <activity
@@ -125,10 +125,11 @@
         <activity android:name=".userpost.CategoryActivity" />
         <activity android:name=".userpost.FeelingActivity" />
         <activity android:name=".userpost.StatusActivity" />
-        <activity android:name=".RecyclerViewDetails.UserCategoryActivity" />
+        <activity android:name=".PostsDetails.UserCategoryActivity" />
         <activity android:name=".ProfilePage.TotalPostsActivity" />
         <activity android:name=".ProfilePage.FollowersActivity" />
-        <activity android:name=".ProfilePage.FollowingActivity"></activity>
+        <activity android:name=".ProfilePage.FollowingActivity" />
+        <activity android:name=".PostsDetails.PostsDetailsActivity"></activity>
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package in.voiceme.app.voiceme.RecyclerViewDetails;
+package in.voiceme.app.voiceme.PostsDetails;
 
 /**
  * Created by Harish on 9/2/2016.

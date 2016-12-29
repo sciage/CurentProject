@@ -1,4 +1,4 @@
-package in.voiceme.app.voiceme.RecyclerViewDetails;
+package in.voiceme.app.voiceme.PostsDetails;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +25,7 @@ import in.voiceme.app.voiceme.services.PostsModel;
  * Created by harish on 12/29/2016.
  */
 
-public class UserFeelingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class UserCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static LikeUnlikeClickListener myClickListener;
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
@@ -34,7 +34,7 @@ public class UserFeelingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private int mLastPosition = 5;
     private double current_lat, current_long;
 
-    public UserFeelingAdapter(List<PostsModel> productLists, Context mContext) {
+    public UserCategoryAdapter(List<PostsModel> productLists, Context mContext) {
         this.mContext = mContext;
         this.dataSet = productLists;
     }
@@ -138,11 +138,11 @@ public class UserFeelingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             View itemView = LayoutInflater.
                     from(parent.getContext()).
                     inflate(R.layout.list_item_posts_cardview, parent, false);
-            vh = new UserFeelingAdapter.EventViewHolder(itemView);
+            vh = new UserCategoryAdapter.EventViewHolder(itemView);
         } else if (viewType == VIEW_PROG) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.progress_item, parent, false);
-            vh = new UserFeelingAdapter.ProgressViewHolder(v);
+            vh = new UserCategoryAdapter.ProgressViewHolder(v);
         } else {
             throw new IllegalStateException("Invalid type, this type ot items " + viewType + " can't be handled");
         }
@@ -152,11 +152,11 @@ public class UserFeelingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof UserFeelingAdapter.EventViewHolder) {
+        if (holder instanceof UserCategoryAdapter.EventViewHolder) {
             PostsModel dataItem = dataSet.get(position);
-            ((UserFeelingAdapter.EventViewHolder)holder).bind(dataItem);
+            ((UserCategoryAdapter.EventViewHolder)holder).bind(dataItem);
         } else {
-            ((UserFeelingAdapter.ProgressViewHolder) holder).progressBar.setIndeterminate(true);
+            ((UserCategoryAdapter.ProgressViewHolder) holder).progressBar.setIndeterminate(true);
         }
 
     }
@@ -198,6 +198,18 @@ public class UserFeelingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         @Override
+        protected void categoryClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserCategoryActivity.class);
+            v.getContext().startActivity(intent);
+        }
+
+        @Override
+        protected void feelingClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserFeelingActivity.class);
+            v.getContext().startActivity(intent);
+        }
+
+        @Override
         protected void likeCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserLikeCounterActivity.class);
             v.getContext().startActivity(intent);
@@ -218,9 +230,9 @@ public class UserFeelingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @Override
         public void liked(LikeButton likeButton) {
 
-            int likeCounter = 0;
-            int hugCounter = 0;
-            int sameCounter = 0;
+            int likeCounter = Integer.parseInt(dataItem.getLikes());
+            int hugCounter = Integer.parseInt(dataItem.getHug());
+            int sameCounter = Integer.parseInt(dataItem.getSame());
             try {
                 if (myClickListener != null) {
                     myClickListener.onLikeUnlikeClick(dataItem, likeButton);
