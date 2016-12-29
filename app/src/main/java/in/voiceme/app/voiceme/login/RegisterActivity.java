@@ -13,6 +13,8 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -24,10 +26,14 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import in.voiceme.app.voiceme.R;
+import in.voiceme.app.voiceme.SocialSignInHelper.FacebookUser;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 
 public class RegisterActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, Constants {
@@ -74,14 +80,6 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
         this.setUpGoogleSignIn();
 
         this.setUpFacebookSignIn();
-
-
-        // initFacebookLogin();
-        //   initGoogleLogin();
-
-        //   outputCognitoCredentials();
-
-
     }
 
     @Override
@@ -119,6 +117,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
             @Override
             public void onSuccess(LoginResult loginResult) {
+
                 RegisterActivity.this.handleFacebookLogin(loginResult);
             }
 
@@ -224,6 +223,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
         Log.v(TAG, "Successfully logged in with Facebook...");
 
+        getUserProfile(loginResult);
         final Map<String, String> logins = new HashMap<>();
         logins.put(FACEBOOK_LOGIN, AccessToken.getCurrentAccessToken().getToken());
         Log.v(TAG, String.format("Facebook token <<<\n%s\n>>>", logins.get(FACEBOOK_LOGIN)));
@@ -234,6 +234,52 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
         application.getAuth().getUser().setLoggedIn(true);
         setResult(RESULT_OK);
         finish();
+    }
+
+    private void getUserProfile(LoginResult loginResult) {
+        // App code
+        GraphRequest request = GraphRequest.newMeRequest(
+                loginResult.getAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+
+                        Log.e("response: ", response + "");
+                        try {
+                            FacebookUser dataObject = parseResponse(object);
+                            onFbProfileReceived(dataObject);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+    }
+
+    private FacebookUser parseResponse(JSONObject object) throws JSONException {
+        FacebookUser user = new FacebookUser();
+        user.response = object;
+
+        if (object.has("id"))
+            user.facebookID = object.getString("id");
+        if (object.has("email"))
+            user.email = object.getString("email");
+        if (object.has("name"))
+            user.name = object.getString("name");
+        if (object.has("gender"))
+            user.gender = object.getString("gender");
+        if (object.has("picture"))
+            user.profilePic = object.getString("picture");
+        return user;
+
+    }
+
+    public void onFbProfileReceived(FacebookUser facebookUser) {
+        Toast.makeText(this, "Facebook user data: name= " + facebookUser.name + " email= " + facebookUser.email, Toast.LENGTH_SHORT).show();
+
+        Log.d("Person name: ", facebookUser.name + "");
+        Log.d("Person gender: ", facebookUser.gender + "");
+        Log.d("Person email: ", facebookUser.email + "");
+        Log.d("Person image: ", facebookUser.facebookID + "");
     }
 
 
@@ -306,6 +352,11 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
 
     /*
     @Override
