@@ -7,24 +7,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.like.LikeButton;
+
+import java.util.List;
+
 import in.voiceme.app.voiceme.DiscoverPage.LikeUnlikeClickListener;
-import in.voiceme.app.voiceme.DiscoverPage.PopularListAdapter;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseFragment;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.PostsModel;
-import java.util.List;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class ActivityYourFeedFragment extends BaseFragment {
 
-  public static final String ARG_POPULAR_PAGE = "ARG_INTERACTION_PAGE";
+  public static final String ARG_YOUR_FEED_PAGE = "ARG_INTERACTION_PAGE";
 
   private int mPage;
   private RecyclerView recyclerView;
-  private PopularListAdapter popularListAdapter;
+  private ActivityYourFeedAdapter activityYourFeedAdapter;
 
   public ActivityYourFeedFragment() {
     // Required empty public constructor
@@ -32,7 +34,7 @@ public class ActivityYourFeedFragment extends BaseFragment {
 
   public static ActivityYourFeedFragment newInstance(int page) {
     Bundle args = new Bundle();
-    args.putInt(ARG_POPULAR_PAGE, page);
+    args.putInt(ARG_YOUR_FEED_PAGE, page);
     ActivityYourFeedFragment fragment2 = new ActivityYourFeedFragment();
     fragment2.setArguments(args);
     return fragment2;
@@ -40,13 +42,13 @@ public class ActivityYourFeedFragment extends BaseFragment {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mPage = getArguments().getInt(ARG_POPULAR_PAGE);
+    mPage = getArguments().getInt(ARG_YOUR_FEED_PAGE);
   }
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    View view = inflater.inflate(R.layout.fragment_discover_popular, container, false);
+    View view = inflater.inflate(R.layout.fragment_activity_your_feed, container, false);
     try {
       initUiView(view);
       getData();
@@ -58,7 +60,7 @@ public class ActivityYourFeedFragment extends BaseFragment {
   }
 
   private void initUiView(View view) {
-    recyclerView = (RecyclerView) view.findViewById(R.id.fragment_discover_popular_recyclerview);
+    recyclerView = (RecyclerView) view.findViewById(R.id.fragment_main_feed_recyclerview);
     recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
   }
 
@@ -79,8 +81,8 @@ public class ActivityYourFeedFragment extends BaseFragment {
   }
 
   private void showRecycleWithDataFilled(final List<PostsModel> myList) {
-    popularListAdapter = new PopularListAdapter(myList, getActivity());
-    popularListAdapter.setOnItemClickListener(new LikeUnlikeClickListener() {
+    activityYourFeedAdapter = new ActivityYourFeedAdapter(myList, getActivity());
+    activityYourFeedAdapter.setOnItemClickListener(new LikeUnlikeClickListener() {
       @Override public void onItemClick(PostsModel model, View v) {
         String name = model.getIdUserName();
       }
@@ -89,6 +91,6 @@ public class ActivityYourFeedFragment extends BaseFragment {
 
       }
     });
-    recyclerView.setAdapter(popularListAdapter);
+    recyclerView.setAdapter(activityYourFeedAdapter);
   }
 }

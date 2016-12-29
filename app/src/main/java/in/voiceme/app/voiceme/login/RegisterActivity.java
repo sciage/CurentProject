@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.SocialSignInHelper.FacebookUser;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 
 public class RegisterActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, Constants {

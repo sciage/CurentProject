@@ -25,7 +25,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * A simple {@link BaseFragment} subclass.
  */
 public class DiscoverPopularFragment extends BaseFragment {
-    public static final String ARG_POPULAR_PAGE = "ARG_POPULAR_PAGE";
+    public static final String ARG_POPULAR_PAGE = "ARG_YOUR_FEED_PAGE";
 
     private int mPage;
     private RecyclerView recyclerView;

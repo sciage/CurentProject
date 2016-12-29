@@ -1,4 +1,4 @@
-package in.voiceme.app.voiceme.SocialSignInHelper;
+package in.voiceme.app.voiceme.login;
 
 import org.json.JSONObject;
 
