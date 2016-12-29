@@ -125,7 +125,10 @@
         <activity android:name=".userpost.CategoryActivity" />
         <activity android:name=".userpost.FeelingActivity" />
         <activity android:name=".userpost.StatusActivity" />
-        <activity android:name=".RecyclerViewDetails.UserCategoryActivity"></activity>
+        <activity android:name=".RecyclerViewDetails.UserCategoryActivity" />
+        <activity android:name=".ProfilePage.TotalPostsActivity" />
+        <activity android:name=".ProfilePage.FollowersActivity" />
+        <activity android:name=".ProfilePage.FollowingActivity"></activity>
     </application>
 
 </manifest>

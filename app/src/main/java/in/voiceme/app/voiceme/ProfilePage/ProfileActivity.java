@@ -8,15 +8,19 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
+
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.Account;
@@ -25,9 +29,6 @@ import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.MainNavDrawer;
 import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.PostsModel;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
@@ -36,19 +37,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private View avatarProgressFrame;
     private File tempOutputFile; //storing the image temporarily while we crop it.
 
-    // keep track of state of the activity
-    private static final int STATE_VIEWING = 1;
-    private static final int STATE_EDITING = 2;
 
-    // activity gets destroyed during rotation. we can save the state of the activity before its destroyed
-    private static final String BUNDLE_STATE = "BUNDLE_STATE";
-
-    private int currentState;
-    // keep track of contextual action bar
-    private ActionMode editProfileActionMode;
-
-    private EditText username;
-    private EditText about;
+    private TextView username;
+    private TextView about;
+    private TextView total_posts;
+    private TextView followers;
+    private TextView following;
 
     private TextView age;
     private TextView gender;
@@ -71,16 +65,22 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         avatarProgressFrame = findViewById(R.id.activity_profile_avatarProgressFrame);
         tempOutputFile = new File(getExternalCacheDir(), "temp-image.jpg");
 
-        username = (EditText) findViewById(R.id.name);
-        about = (EditText) findViewById(R.id.about);
+        username = (TextView) findViewById(R.id.name);
+        followers = (TextView) findViewById(R.id.profile_followers);
+        following = (TextView) findViewById(R.id.profile_following);
+        about = (TextView) findViewById(R.id.about);
+        total_posts = (TextView) findViewById(R.id.user_profile_textview);
 
         age = (TextView) findViewById(R.id.age);
         gender = (TextView) findViewById(R.id.gender);
         location = (TextView) findViewById(R.id.location);
 
+        followers.setOnClickListener(this);
+        following.setOnClickListener(this);
         age.setOnClickListener(this);
         gender.setOnClickListener(this);
         location.setOnClickListener(this);
+        total_posts.setOnClickListener(this);
 
         avatarView.setOnClickListener(this);
 
@@ -103,17 +103,19 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedState) {
-        super.onSaveInstanceState(savedState);
-        savedState.putInt(BUNDLE_STATE, currentState);
-    }
-
-    @Override
     public void onClick(View view) {
         int viewId = view.getId();
 
-        if (viewId == R.id.activity_profile_avatar)
+        if (viewId == R.id.activity_profile_avatar){
             changeAvatar();
+        } else if (viewId == R.id.user_profile_textview){
+            startActivity(new Intent(this, TotalPostsActivity.class));
+        } else if(viewId == R.id.profile_followers){
+            startActivity(new Intent(this, FollowersActivity.class));
+        } else if (viewId == R.id.profile_following){
+            startActivity(new Intent(this, FollowingActivity.class));
+        }
+
     }
 
     private void changeAvatar() {
@@ -191,7 +193,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         int itemId = item.getItemId();
 
         if (itemId == R.id.activity_profile_menuEdit) {
-            changeState(STATE_EDITING);
+         //   changeState(STATE_EDITING);
             return true;
         } else if (itemId == R.id.activity_profile_menuChangePassword) {
             //  startActivity(new Intent(this, AppConfigsActivity.class));
@@ -207,32 +209,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         uCrop.start(ProfileActivity.this);
     }
 
-    private void changeState (int state){
-        // if we switching back to current state, then donot do anything
-        if (state == currentState){
-            return;
-        }
-
-        currentState = state;
-
-        if (state == STATE_VIEWING){
-            username.setEnabled(false);
-            about.setEnabled(false);
-            age.setEnabled(false);
-            location.setEnabled(false);
-            gender.setEnabled(false);
-
-
-        } else if (state == STATE_EDITING){
-            username.setEnabled(true);
-            about.setEnabled(true);
-            age.setEnabled(true);
-            location.setEnabled(true);
-            gender.setEnabled(true);
-
-        } else throw new IllegalArgumentException("invalid state: " + state);
-
-    }
 
     private void getData() throws Exception {
         ((VoicemeApplication) getApplication()).getWebService()
@@ -248,46 +224,5 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
 //   http://54.164.58.140/posts.php?follower=2
-
-    private class EditProfileActionCallback implements ActionMode.Callback {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            getMenuInflater().inflate(R.menu.activity_profile_edit, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            int itemId = item.getItemId();
-
-            if (itemId == R.id.activity_profile_edit_menuDone) {
-                // setProgressBarVisible(true);
-                /*LoginUser user = application.getAuth().getUser();
-                user.setUserNickName(userName.getText().toString());
-                user.setGender(gender.getText().toString()); */
-
-                changeState(STATE_VIEWING);
-                bus.post(new Account.UpdateProfileRequest(
-                        username.getText().toString(),
-                        gender.getText().toString()
-                ));
-                return true;
-            }
-
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            if (currentState != STATE_VIEWING)
-                changeState(STATE_VIEWING);
-        }
-    }
-
 
 }
