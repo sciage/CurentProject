@@ -124,7 +124,8 @@
 
         <activity android:name=".userpost.CategoryActivity" />
         <activity android:name=".userpost.FeelingActivity" />
-        <activity android:name=".userpost.StatusActivity"></activity>
+        <activity android:name=".userpost.StatusActivity" />
+        <activity android:name=".RecyclerViewDetails.UserCategoryActivity"></activity>
     </application>
 
 </manifest>

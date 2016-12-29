@@ -18,6 +18,8 @@ import java.util.List;
 import in.voiceme.app.voiceme.DiscoverPage.LikeUnlikeClickListener;
 import in.voiceme.app.voiceme.DiscoverPage.PostsCardViewHolder;
 import in.voiceme.app.voiceme.R;
+import in.voiceme.app.voiceme.RecyclerViewDetails.UserCategoryActivity;
+import in.voiceme.app.voiceme.RecyclerViewDetails.UserFeelingActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserHugCounterActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserLikeCounterActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserListenCounterActivity;
@@ -198,6 +200,18 @@ public class ActivityYourFeedAdapter extends RecyclerView.Adapter<RecyclerView.V
         @Override
         protected void listenCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserListenCounterActivity.class);
+            v.getContext().startActivity(intent);
+        }
+
+        @Override
+        protected void categoryClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserCategoryActivity.class);
+            v.getContext().startActivity(intent);
+        }
+
+        @Override
+        protected void feelingClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserFeelingActivity.class);
             v.getContext().startActivity(intent);
         }
 

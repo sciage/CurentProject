@@ -15,6 +15,7 @@ import com.like.OnLikeListener;
 import java.text.NumberFormat;
 import java.util.List;
 
+import in.voiceme.app.voiceme.RecyclerViewDetails.UserCategoryActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserFeelingActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserHugCounterActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserLikeCounterActivity;
@@ -203,6 +204,12 @@ public class PopularListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @Override
         protected void likeCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserLikeCounterActivity.class);
+            v.getContext().startActivity(intent);
+        }
+
+        @Override
+        protected void categoryClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserCategoryActivity.class);
             v.getContext().startActivity(intent);
         }
 

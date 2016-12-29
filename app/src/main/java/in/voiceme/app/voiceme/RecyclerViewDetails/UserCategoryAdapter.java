@@ -1,4 +1,4 @@
-package in.voiceme.app.voiceme.DiscoverPage;
+package in.voiceme.app.voiceme.RecyclerViewDetails;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,21 +15,17 @@ import com.like.OnLikeListener;
 import java.text.NumberFormat;
 import java.util.List;
 
+import in.voiceme.app.voiceme.DiscoverPage.LikeUnlikeClickListener;
+import in.voiceme.app.voiceme.DiscoverPage.PostsCardViewHolder;
 import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserCategoryActivity;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserFeelingActivity;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserHugCounterActivity;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserLikeCounterActivity;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserListenCounterActivity;
-import in.voiceme.app.voiceme.RecyclerViewDetails.UserSameCounterActivity;
 import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.PostsModel;
 
-
 /**
- * Created by ericbasendra on 02/12/15.
+ * Created by harish on 12/29/2016.
  */
-public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+public class UserCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static LikeUnlikeClickListener myClickListener;
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;
@@ -38,7 +34,7 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private int mLastPosition = 5;
     private double current_lat, current_long;
 
-    public LatestListAdapter(List<PostsModel> productLists, Context mContext) {
+    public UserCategoryAdapter(List<PostsModel> productLists, Context mContext) {
         this.mContext = mContext;
         this.dataSet = productLists;
     }
@@ -142,11 +138,11 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             View itemView = LayoutInflater.
                     from(parent.getContext()).
                     inflate(R.layout.list_item_posts_cardview, parent, false);
-            vh = new EventViewHolder(itemView);
+            vh = new UserCategoryAdapter.EventViewHolder(itemView);
         } else if (viewType == VIEW_PROG) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.progress_item, parent, false);
-            vh = new ProgressViewHolder(v);
+            vh = new UserCategoryAdapter.ProgressViewHolder(v);
         } else {
             throw new IllegalStateException("Invalid type, this type ot items " + viewType + " can't be handled");
         }
@@ -156,11 +152,11 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof EventViewHolder) {
+        if (holder instanceof UserCategoryAdapter.EventViewHolder) {
             PostsModel dataItem = dataSet.get(position);
-            ((EventViewHolder) holder).bind(dataItem);
+            ((UserCategoryAdapter.EventViewHolder)holder).bind(dataItem);
         } else {
-            ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
+            ((UserCategoryAdapter.ProgressViewHolder) holder).progressBar.setIndeterminate(true);
         }
 
     }
@@ -172,7 +168,6 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         else
             return 0;
     }
-
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -203,12 +198,6 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
 
         @Override
-        protected void categoryClicked(View v) {
-            Intent intent = new Intent(v.getContext(), UserCategoryActivity.class);
-            v.getContext().startActivity(intent);
-        }
-
-        @Override
         protected void likeCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserLikeCounterActivity.class);
             v.getContext().startActivity(intent);
@@ -225,14 +214,6 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Intent intent = new Intent(v.getContext(), UserSameCounterActivity.class);
             v.getContext().startActivity(intent);
         }
-
-        @Override
-        protected void feelingClicked(View v) {
-            Intent intent = new Intent(v.getContext(), UserFeelingActivity.class);
-            v.getContext().startActivity(intent);
-        }
-
-
 
         @Override
         public void liked(LikeButton likeButton) {
