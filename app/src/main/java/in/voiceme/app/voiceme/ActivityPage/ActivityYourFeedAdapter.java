@@ -16,7 +16,6 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import in.voiceme.app.voiceme.DiscoverPage.LikeUnlikeClickListener;
-import in.voiceme.app.voiceme.DiscoverPage.PopularListAdapter;
 import in.voiceme.app.voiceme.DiscoverPage.PostsCardViewHolder;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserHugCounterActivity;
@@ -143,11 +142,11 @@ public class ActivityYourFeedAdapter extends RecyclerView.Adapter<RecyclerView.V
             View itemView = LayoutInflater.
                     from(parent.getContext()).
                     inflate(R.layout.list_item_posts_cardview, parent, false);
-            vh = new PopularListAdapter.EventViewHolder(itemView);
+            vh = new ActivityYourFeedAdapter.EventViewHolder(itemView);
         } else if (viewType == VIEW_PROG) {
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.progress_item, parent, false);
-            vh = new PopularListAdapter.ProgressViewHolder(v);
+            vh = new ActivityYourFeedAdapter.ProgressViewHolder(v);
         } else {
             throw new IllegalStateException("Invalid type, this type ot items " + viewType + " can't be handled");
         }
@@ -157,11 +156,11 @@ public class ActivityYourFeedAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof PopularListAdapter.EventViewHolder) {
+        if (holder instanceof ActivityYourFeedAdapter.EventViewHolder) {
             PostsModel dataItem = dataSet.get(position);
-            ((PopularListAdapter.EventViewHolder)holder).bind(dataItem);
+            ((ActivityYourFeedAdapter.EventViewHolder)holder).bind(dataItem);
         } else {
-            ((PopularListAdapter.ProgressViewHolder) holder).progressBar.setIndeterminate(true);
+            ((ActivityYourFeedAdapter.ProgressViewHolder) holder).progressBar.setIndeterminate(true);
         }
 
     }

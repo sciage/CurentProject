@@ -130,6 +130,19 @@ public abstract class PostsCardViewHolder extends RecyclerView.ViewHolder implem
             }
         });
 
+        category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categoryClicked(view);
+            }
+        });
+        feeling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                feelingClicked(view);
+            }
+        });
+
         likeCounterImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,6 +175,14 @@ public abstract class PostsCardViewHolder extends RecyclerView.ViewHolder implem
         });
 
         parent_row.setOnClickListener(this);
+    }
+
+    protected void categoryClicked(View view){
+
+    }
+
+    protected void feelingClicked(View view){
+
     }
 
     protected void listenCounterClicked(View v) {

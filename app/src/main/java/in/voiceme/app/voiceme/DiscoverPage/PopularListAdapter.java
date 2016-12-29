@@ -15,6 +15,7 @@ import com.like.OnLikeListener;
 import java.text.NumberFormat;
 import java.util.List;
 
+import in.voiceme.app.voiceme.RecyclerViewDetails.UserFeelingActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserHugCounterActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserLikeCounterActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserListenCounterActivity;
@@ -208,6 +209,12 @@ public class PopularListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @Override
         protected void hugCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserHugCounterActivity.class);
+            v.getContext().startActivity(intent);
+        }
+
+        @Override
+        protected void feelingClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserFeelingActivity.class);
             v.getContext().startActivity(intent);
         }
 

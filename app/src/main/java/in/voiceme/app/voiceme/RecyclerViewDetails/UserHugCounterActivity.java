@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.infrastructure.BaseActivity;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import in.voiceme.app.voiceme.R;
+import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 
 public class UserHugCounterActivity extends BaseActivity {
   private static final int REQUEST_VIEW_MESSAGE = 1;
@@ -15,6 +17,7 @@ public class UserHugCounterActivity extends BaseActivity {
   private RecyclerView rv;
 
   @Override protected void onCreate(Bundle savedState) {
+    super.onCreate(savedState);
     setContentView(R.layout.activity_user_hug_counter);
     getSupportActionBar().setTitle("Hugs LoginUser");
     toolbar.setNavigationIcon(R.mipmap.ic_ab_close);

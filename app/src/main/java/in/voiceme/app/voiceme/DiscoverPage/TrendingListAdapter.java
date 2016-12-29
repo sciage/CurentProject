@@ -16,6 +16,7 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import in.voiceme.app.voiceme.R;
+import in.voiceme.app.voiceme.RecyclerViewDetails.UserFeelingActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserHugCounterActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserLikeCounterActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserListenCounterActivity;
@@ -193,6 +194,12 @@ public class TrendingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         @Override
         protected void listenCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserListenCounterActivity.class);
+            v.getContext().startActivity(intent);
+        }
+
+        @Override
+        protected void feelingClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserFeelingActivity.class);
             v.getContext().startActivity(intent);
         }
 

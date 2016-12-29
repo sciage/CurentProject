@@ -16,6 +16,7 @@ import java.text.NumberFormat;
 import java.util.List;
 
 import in.voiceme.app.voiceme.R;
+import in.voiceme.app.voiceme.RecyclerViewDetails.UserFeelingActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserHugCounterActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserLikeCounterActivity;
 import in.voiceme.app.voiceme.RecyclerViewDetails.UserListenCounterActivity;
@@ -217,6 +218,14 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Intent intent = new Intent(v.getContext(), UserSameCounterActivity.class);
             v.getContext().startActivity(intent);
         }
+
+        @Override
+        protected void feelingClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserFeelingActivity.class);
+            v.getContext().startActivity(intent);
+        }
+
+
 
         @Override
         public void liked(LikeButton likeButton) {
