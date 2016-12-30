@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import in.voiceme.app.voiceme.PostsDetails.PostsDetailsActivity;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.MainNavDrawer;
@@ -56,8 +57,8 @@ public class TextStatus extends BaseActivity {
         button_post_text_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-        //        Intent intent = new Intent(TextStatus.this, AudioActivity.class);
-        //        startActivity(intent);
+               Intent intent = new Intent(TextStatus.this, PostsDetailsActivity.class);
+               startActivity(intent);
             }
         });
     }
