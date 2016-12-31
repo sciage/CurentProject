@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent_row"
@@ -26,7 +25,7 @@
             android:layout_height="37dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/list_item_post_userNickName"
@@ -39,7 +38,7 @@
             android:text="Username"
             android:textColor="#de000000"
             android:textSize="14sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/list_item_post_is"
@@ -53,7 +52,7 @@
             android:text="is"
             android:textColor="#de000000"
             android:textSize="14sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/list_item_posts_feeling"
@@ -66,7 +65,7 @@
             android:paddingRight="5dp"
             android:text="Sad"
             android:textColor="#de000000"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/list_item_posts_category"
@@ -78,7 +77,7 @@
             android:paddingRight="6dp"
             android:text="Family"
             android:textColor="#de000000"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="50dp"
@@ -95,14 +94,14 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/ic_play_circle_outline_black_24dp"/>
+                android:src="@drawable/ic_play_circle_outline_black_24dp" />
 
             <TextView
                 android:id="@+id/list_item_posts_duration_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="1:40"/>
+                android:text="1:40" />
 
 
         </LinearLayout>
@@ -118,7 +117,7 @@
             android:layout_toRightOf="@id/list_item_posts_avatar"
             android:text="07/21/2016"
             android:textColor="#444"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/list_item_posts_message"
@@ -127,7 +126,7 @@
             android:layout_below="@id/list_item_posts_timeStamp"
             android:layout_marginTop="3dp"
             android:text="@string/posts_text"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/list_item_posts_read_more"
@@ -136,7 +135,7 @@
             android:layout_below="@id/list_item_posts_message"
             android:paddingTop="2dp"
             android:text="Read More"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
 
         <LinearLayout
             android:id="@+id/number_of_likes"
@@ -152,17 +151,17 @@
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/listen"/>
+                android:src="@drawable/listen" />
 
             <TextView
                 android:id="@+id/post_likes_counter"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="7dp"
                 android:layout_marginRight="7dp"
                 android:paddingTop="2dp"
                 android:textSize="12sp"
-                tools:text="900"/>
+                tools:text="0" />
 
             <ImageView
                 android:id="@+id/emoji_above_hug"
@@ -171,17 +170,17 @@
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/listen"/>
+                android:src="@drawable/listen" />
 
             <TextView
                 android:id="@+id/post_hugs_counter"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="7dp"
                 android:layout_marginRight="7dp"
                 android:paddingTop="2dp"
                 android:textSize="12sp"
-                tools:text="900"/>
+                tools:text="0" />
 
             <ImageView
                 android:id="@+id/emoji_above_same"
@@ -190,17 +189,17 @@
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/listen"/>
+                android:src="@drawable/listen" />
 
             <TextView
                 android:id="@+id/post_same_counter"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="7dp"
                 android:layout_marginRight="7dp"
                 android:paddingTop="2dp"
                 android:textSize="12sp"
-                tools:text="900"/>
+                tools:text="0" />
 
             <ImageView
                 android:id="@+id/emoji_above_comment"
@@ -209,17 +208,17 @@
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/listen"/>
+                android:src="@drawable/listen" />
 
             <TextView
                 android:id="@+id/post_comment_counter"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="7dp"
                 android:layout_marginRight="7dp"
                 android:paddingTop="2dp"
                 android:textSize="12sp"
-                tools:text="900"/>
+                tools:text="0" />
 
             <ImageView
                 android:id="@+id/emoji_above_listen"
@@ -228,15 +227,15 @@
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/listen"/>
+                android:src="@drawable/listen" />
 
             <TextView
                 android:id="@+id/post_listen_counter"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="2dp"
                 android:textSize="12sp"
-                tools:text="900"/>
+                tools:text="0" />
 
         </LinearLayout>
 
@@ -251,7 +250,7 @@
             app:dots_secondary_color="@android:color/holo_blue_dark"
             app:icon_size="20dp"
             app:like_drawable="@drawable/thumb_on"
-            app:unlike_drawable="@drawable/thumb_off"/>
+            app:unlike_drawable="@drawable/thumb_off" />
 
         <com.like.LikeButton
             android:id="@+id/list_item_hug_button"
@@ -266,7 +265,7 @@
             app:dots_secondary_color="@android:color/holo_blue_dark"
             app:icon_size="20dp"
             app:like_drawable="@drawable/thumb_on"
-            app:unlike_drawable="@drawable/thumb_off"/>
+            app:unlike_drawable="@drawable/thumb_off" />
 
         <com.like.LikeButton
             android:id="@+id/list_item_same_button"
@@ -281,7 +280,7 @@
             app:dots_secondary_color="@android:color/holo_blue_dark"
             app:icon_size="20dp"
             app:like_drawable="@drawable/thumb_on"
-            app:unlike_drawable="@drawable/thumb_off"/>
+            app:unlike_drawable="@drawable/thumb_off" />
 
 
     </RelativeLayout>

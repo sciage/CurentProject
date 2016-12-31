@@ -129,7 +129,8 @@
         <activity android:name=".ProfilePage.TotalPostsActivity" />
         <activity android:name=".ProfilePage.FollowersActivity" />
         <activity android:name=".ProfilePage.FollowingActivity" />
-        <activity android:name=".PostsDetails.PostsDetailsActivity"></activity>
+        <activity android:name=".PostsDetails.PostsDetailsActivity" />
+        <activity android:name=".contactPage.ContactsActivity"></activity>
     </application>
 
 </manifest>
