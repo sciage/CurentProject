@@ -11,6 +11,8 @@ public interface Constants {
 
     String PREF_FILE = "prefs.xml";
 
+    String CONSTANT_PREF_FILE = "constantPref.xml";
+
     String KEY_LAST_USED_PROVIDER = "last_used_provider";
     String KEY_PROVIDER_TOKEN = "last_provider_token";
 }

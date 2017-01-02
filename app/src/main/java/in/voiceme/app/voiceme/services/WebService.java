@@ -1,5 +1,7 @@
 package in.voiceme.app.voiceme.services;
 
+import android.net.Uri;
+
 import java.util.List;
 
 import in.voiceme.app.voiceme.login.LoginResponse;
@@ -48,8 +50,10 @@ public interface WebService {
             @Field("location") String location,
             @Field("dob") String dateOfBirth,
             @Field("user_id") String userId,
-            @Field("profile") String profile,
+            @Field("profile") Uri profile,
             @Field("gender") String gender
     );
+
+
 
 }

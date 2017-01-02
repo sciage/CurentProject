@@ -11,17 +11,13 @@ public class FacebookUser {
 
     public String email;
 
-    public String facebookID;
-
     public String gender;
 
-    public String about;
-
-    public String bio;
-
-    public String coverPicUrl;
-
-    public String profilePic;
+    public FacebookUser(String name, String email, String gender) {
+        this.name = name;
+        this.email = email;
+        this.gender = gender;
+    }
 
     /**
      * JSON response received. If you want to parse more fields.

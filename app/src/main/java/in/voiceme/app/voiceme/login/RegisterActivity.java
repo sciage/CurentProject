@@ -1,6 +1,8 @@
 package in.voiceme.app.voiceme.login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -23,12 +25,20 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.squareup.otto.Subscribe;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import in.voiceme.app.voiceme.R;
+import in.voiceme.app.voiceme.infrastructure.Account;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
+import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
+import in.voiceme.app.voiceme.infrastructure.MySharedPreferences;
+import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
+import in.voiceme.app.voiceme.services.PostsModel;
+import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
 public class RegisterActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, Constants {
@@ -40,6 +50,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
     private static final String EMAIL = "email";
     //Activity requests
     private static final int GOOGLE_SIGN_IN = 1;
+    private FacebookUser facebookUser;
 
     // Google
     private SignInButton googleSignInBtn;
@@ -48,6 +59,10 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
     // Facebook
     private LoginButton facebookSignInBtn;
     private CallbackManager callbackManager;
+
+    private List<PostsModel> userModel;
+
+    private String amazonIdentity;
 
 
     /* Implements GoogleApiClient.OnConnectionFailedListener */
@@ -182,9 +197,6 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
             logins.put(GOOGLE_LOGIN, acct.getIdToken());
 
             Log.v(TAG, String.format("Google token <<<\n%s\n>>>", logins.get(GOOGLE_LOGIN)));
-
-            // The identity must be created asynchronously
-            new CreateIdentityTask(this).execute(logins);
             application.getAuth().getUser().setLoggedIn(true);
             setResult(RESULT_OK);
 
@@ -194,6 +206,12 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
                 Timber.d(String.valueOf("Id : " + result.getSignInAccount().getId()));
                 Timber.d(String.valueOf("Email : " + result.getSignInAccount().getEmail()));
                 Timber.d(String.valueOf("Photo url : " + result.getSignInAccount().getPhotoUrl()));
+
+                try {
+                    getData(result.getSignInAccount().getDisplayName(), result.getSignInAccount().getEmail(), result.getSignInAccount().getPhotoUrl());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             finish();
@@ -202,6 +220,24 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
             Log.w(TAG, String.format("Failed to authenticate against Google #%d - %s",
                     result.getStatus().getStatusCode(), result.getStatus().getStatusMessage()));
         }
+    }
+
+    @Subscribe
+    public void AmazonToken (Account.AmazonIdentity identity){
+        amazonIdentity = identity.amazonIdentity;
+    }
+
+    private void getData(String name, String email,Uri profile) throws Exception {
+                application.getWebService()
+                .login(name, email,"", "", amazonIdentity,profile,"")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<List<PostsModel>>() {
+                    @Override
+                    public void onNext(List<PostsModel> response) {
+                        Log.e("RESPONSE:::", "Size===" + response.size());
+                        UserData(response);
+                    }
+                });
     }
 
 
@@ -232,7 +268,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
 
         // The identity must be created asynchronously
-        new CreateIdentityTask(this).execute(logins);
+        new CreateIdentityTask(this, bus).execute(logins);
         application.getAuth().getUser().setLoggedIn(true);
         setResult(RESULT_OK);
         finish();

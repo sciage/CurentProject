@@ -191,4 +191,17 @@ public final class Account {
     }
 
 
+    public static class AmazonIdentity{
+        public String amazonIdentity;
+
+        public AmazonIdentity(String amazonIdentity) {
+            this.amazonIdentity = amazonIdentity;
+        }
+
+        public String getAmazonIdentity(){
+            return amazonIdentity;
+        }
+    }
+
+
 }
