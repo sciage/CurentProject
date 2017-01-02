@@ -5,11 +5,8 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.squareup.otto.Bus;
-
 import java.util.Map;
 
-import in.voiceme.app.voiceme.infrastructure.Account;
 import in.voiceme.app.voiceme.login.account.AccountManager;
 
 /**
@@ -18,11 +15,9 @@ import in.voiceme.app.voiceme.login.account.AccountManager;
 class CreateIdentityTask extends AsyncTask<Map<String, String>, Integer, Boolean> {
 
   private RegisterActivity signInActivity;
-  private Bus bus;
 
-  public CreateIdentityTask(RegisterActivity signInActivity, Bus bus) {
+  public CreateIdentityTask(RegisterActivity signInActivity) {
     this.signInActivity = signInActivity;
-    this.bus = bus;
 
   }
 
@@ -33,7 +28,6 @@ class CreateIdentityTask extends AsyncTask<Map<String, String>, Integer, Boolean
     if (identity != null && !identity.isEmpty()) {
 
       Log.v("Sign In Tag", String.format("Obtained AWS identity %s", identity));
-      bus.post(new Account.AmazonIdentity(identity));
 
 
       // Storing last used provider & token (will be used when refreshing)

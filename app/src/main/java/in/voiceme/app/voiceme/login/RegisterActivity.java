@@ -273,7 +273,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
 
         // The identity must be created asynchronously
-        new CreateIdentityTask(this, bus).execute(logins);
+        new CreateIdentityTask(this).execute(logins);
 
         Profile profile = Profile.getCurrentProfile();
 
