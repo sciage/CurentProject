@@ -1,7 +1,6 @@
 package in.voiceme.app.voiceme.login;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,7 +35,6 @@ import in.voiceme.app.voiceme.infrastructure.Account;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.MySharedPreferences;
-import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.PostsModel;
 import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
@@ -231,13 +229,18 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
                 application.getWebService()
                 .login(name, email,"", "", amazonIdentity,profile,"")
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<List<PostsModel>>() {
+                .subscribe(new BaseSubscriber<LoginResponse>() {
                     @Override
-                    public void onNext(List<PostsModel> response) {
-                        Log.e("RESPONSE:::", "Size===" + response.size());
+                    public void onNext(LoginResponse response) {
                         UserData(response);
                     }
                 });
+    }
+
+
+    private void UserData(LoginResponse response){
+        MySharedPreferences.registerUserId(preferences, response.info.id);
+        Timber.e("Successfully entered the value inside SharedPreferences");
     }
 
 

@@ -1,6 +1,8 @@
 package in.voiceme.app.voiceme.infrastructure;
 
 import android.animation.Animator;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,8 @@ import in.voiceme.app.voiceme.ActivityPage.MainActivity;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.login.account.AccountManager;
 
+import static in.voiceme.app.voiceme.login.Constants.CONSTANT_PREF_FILE;
+
 public abstract class BaseActivity extends AppCompatActivity {
   protected VoicemeApplication application;
   protected Toolbar toolbar;
@@ -23,12 +27,16 @@ public abstract class BaseActivity extends AppCompatActivity {
   private static String TAG = MainActivity.class.getSimpleName();
   protected AccountManager manager;
 
+  protected SharedPreferences preferences;
+
+
   @Override protected void onCreate(Bundle savedState) {
     super.onCreate(savedState);
     application = (VoicemeApplication) getApplication();
     bus = application.getBus();
     scheduler = new ActionScheduler(application);
     manager = AccountManager.getInstance();
+    preferences = getSharedPreferences(CONSTANT_PREF_FILE, Context.MODE_PRIVATE);
 
     bus.register(this);
     isRegisterdWithBus = true;
