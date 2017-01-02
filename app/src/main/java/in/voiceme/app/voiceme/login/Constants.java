@@ -15,4 +15,5 @@ public interface Constants {
 
     String KEY_LAST_USED_PROVIDER = "last_used_provider";
     String KEY_PROVIDER_TOKEN = "last_provider_token";
+    String KEY_IDENTITY_ID = "KEY_IDENTITY_ID";
 }

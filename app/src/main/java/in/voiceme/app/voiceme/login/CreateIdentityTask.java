@@ -38,6 +38,7 @@ class CreateIdentityTask extends AsyncTask<Map<String, String>, Integer, Boolean
       SharedPreferences.Editor editor = settings.edit();
       editor.putString(Constants.KEY_LAST_USED_PROVIDER, provider);
       editor.putString(Constants.KEY_PROVIDER_TOKEN, token);
+      editor.putString(Constants.KEY_IDENTITY_ID, identity);
       editor.apply();
 
       return Boolean.TRUE;

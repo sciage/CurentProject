@@ -34,7 +34,6 @@ import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.MySharedPreferences;
-import in.voiceme.app.voiceme.login.account.AccountManager;
 import in.voiceme.app.voiceme.services.PostsModel;
 import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
@@ -220,7 +219,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
     private void getData(String name, String email,Uri profile) throws Exception {
                 application.getWebService()
-                .login(name, email,"", "", AccountManager.getInstance().getCredentialsProvider().getIdentityId(),profile,"")
+                .login(name, email,"", "","user ID",profile,"")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<LoginResponse>() {
                     @Override
