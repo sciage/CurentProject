@@ -14,6 +14,7 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -240,6 +241,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
     private void UserData(LoginResponse response){
         MySharedPreferences.registerUserId(preferences, response.info.id);
+        Timber.d("the user ID is" + response.info.id);
         Timber.e("Successfully entered the value inside SharedPreferences");
     }
 
@@ -272,6 +274,17 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
         // The identity must be created asynchronously
         new CreateIdentityTask(this, bus).execute(logins);
+
+        Profile profile = Profile.getCurrentProfile();
+
+        if (profile != null) {
+            Timber.d(String.valueOf("Display name : " + profile.getName()));
+            Timber.d(String.valueOf("Id : " + profile.getId()));
+            Timber.d(String.valueOf("Email : " + ""));
+            Timber.d(String.valueOf("Photo url : " + profile.getProfilePictureUri(500, 500)));
+        }
+
+
         application.getAuth().getUser().setLoggedIn(true);
         setResult(RESULT_OK);
         finish();
