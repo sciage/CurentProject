@@ -2,11 +2,12 @@ package in.voiceme.app.voiceme.infrastructure;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+
 import in.voiceme.app.voiceme.ActivityPage.MainActivity;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.login.LoginActivity;
-import in.voiceme.app.voiceme.login.account.SynchronizeDatasetTask;
 
 /**
  * Created by Harish on 7/26/2016.
@@ -39,7 +40,7 @@ public class AuthenticationActivity extends BaseActivity {
    */
   public void refreshValues() {
     //As we might need to refresh the credentials, we synchronize the dataset asynchronously
-    new SynchronizeDatasetTask(manager).execute();
+    //new AccountManager.SynchronizeDatasetTask(manager).execute();
     Intent intent = null;
     String returnTo = getIntent().getStringExtra(EXTRA_RETURN_TO_ACTIVITY);
     if (returnTo != null) {
