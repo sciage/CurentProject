@@ -95,6 +95,7 @@ public class MainActivity extends BaseActivity
         SmartTabLayout tabsStrip = (SmartTabLayout) findViewById(R.id.tabs_main_activity);
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(viewPager);
+
     }
 
     private void checkAuthStatus() {
@@ -164,4 +165,6 @@ public class MainActivity extends BaseActivity
         super.onDestroy();
         if (refreshTokenService != null) refreshTokenService.cacelAll();
     }
+
+
 }

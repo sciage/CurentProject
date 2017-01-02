@@ -192,8 +192,13 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
             logins.put(GOOGLE_LOGIN, acct.getIdToken());
 
             Log.v(TAG, String.format("Google token <<<\n%s\n>>>", logins.get(GOOGLE_LOGIN)));
+            new CreateIdentityTask(this, preferences).execute(logins);
             application.getAuth().getUser().setLoggedIn(true);
             setResult(RESULT_OK);
+
+            if (preferences != null){
+                Timber.d(String.valueOf("Amazon Identity ID : " + MySharedPreferences.getAmazonID(preferences)));
+            }
 
             GoogleSignInAccount account = result.getSignInAccount();
             if (account != null) {
@@ -202,11 +207,12 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
                 Timber.d(String.valueOf("Email : " + result.getSignInAccount().getEmail()));
                 Timber.d(String.valueOf("Photo url : " + result.getSignInAccount().getPhotoUrl()));
 
-                try {
-                    getData(result.getSignInAccount().getDisplayName(), result.getSignInAccount().getEmail(), result.getSignInAccount().getPhotoUrl());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            }
+
+            try {
+                getData(result.getSignInAccount().getDisplayName(), result.getSignInAccount().getId(), result.getSignInAccount().getEmail(), result.getSignInAccount().getPhotoUrl());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             finish();
@@ -217,9 +223,9 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
         }
     }
 
-    private void getData(String name, String email,Uri profile) throws Exception {
+    private void getData(String name, String identityID, String email, Uri profile) throws Exception {
                 application.getWebService()
-                .login(name, email,"", "","user ID",profile,"")
+                .login(name, email,"", "",identityID,profile,"")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<LoginResponse>() {
                     @Override
@@ -264,7 +270,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
 
         // The identity must be created asynchronously
-        new CreateIdentityTask(this).execute(logins);
+        new CreateIdentityTask(this, preferences).execute(logins);
 
         Profile profile = Profile.getCurrentProfile();
 
