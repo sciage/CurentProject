@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
-import com.facebook.Profile;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.common.ConnectionResult;
@@ -46,15 +45,6 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        Profile profile = Profile.getCurrentProfile();
-
-        if (profile != null) {
-            Timber.d(String.valueOf("Display name : " + profile.getName()));
-            Timber.d(String.valueOf("Id : " + profile.getId()));
-            Timber.d(String.valueOf("Email : " + ""));
-            Timber.d(String.valueOf("Photo url : " + profile.getProfilePictureUri(500, 500)));
-        }
 
         checkAuthStatus();
 
