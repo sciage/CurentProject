@@ -72,8 +72,7 @@ public class ActivityInteractionFragment extends BaseFragment {
 
     private void getData() throws Exception {
         ((VoicemeApplication) getActivity().getApplication()).getWebService()
-                // Todo: add the user ID here
-                .getInteractionPosts("1","true")
+                .getPopulars("true")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<List<PostsModel>>() {
                     @Override

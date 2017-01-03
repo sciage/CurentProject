@@ -123,8 +123,7 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".userpost.CategoryActivity" />
         <activity android:name=".userpost.FeelingActivity" />
         <activity android:name=".userpost.StatusActivity" />
@@ -133,7 +132,8 @@
         <activity android:name=".ProfilePage.FollowersActivity" />
         <activity android:name=".ProfilePage.FollowingActivity" />
         <activity android:name=".PostsDetails.PostsDetailsActivity" />
-        <activity android:name=".contactPage.ContactsActivity"></activity>
+        <activity android:name=".contactPage.ContactsActivity" />
+        <activity android:name=".ProfilePage.ChangeProfileActivity"></activity>
     </application>
 
 </manifest>

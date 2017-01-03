@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import java.util.List;
 
+import in.voiceme.app.voiceme.PostsDetails.UserSuperList;
 import in.voiceme.app.voiceme.login.LoginResponse;
 import in.voiceme.app.voiceme.userpost.Response;
 import retrofit2.http.Field;
@@ -71,11 +72,8 @@ public interface WebService {
     @GET("posts.php")
     Observable<List<PostsModel>> getCategoryPosts(@Query("category_id") String category_id);
 
-    @GET("posts.php")
-    Observable<List<PostsModel>> getInteractionPosts(
-            @Query("id_user") String category_id,
-            @Query("filtered") String filtered);
-
-
+    @GET("get_likers.php")
+    Observable<UserSuperList> getInteractionPosts(
+            @Query("id_posts") String id_posts );
 
 }

@@ -5,11 +5,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
+import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class UserLikeCounterActivity extends BaseActivity {
     private static final int REQUEST_VIEW_MESSAGE = 1;
@@ -36,19 +37,24 @@ public class UserLikeCounterActivity extends BaseActivity {
         rv.setHasFixedSize(true);
 
         initializeData();
-        initializeAdapter();
 
     }
 
     private void initializeData() {
-        persons = new ArrayList<>();
-        persons.add(new Person("Emma Wilson", R.mipmap.ic_launcher));
-        persons.add(new Person("Lavery Maiss", R.mipmap.ic_launcher));
-        persons.add(new Person("Lillie Watts", R.mipmap.ic_launcher));
+
+        application.getWebService()
+                .getInteractionPosts("1")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<UserSuperList>() {
+                    @Override
+                    public void onNext(UserSuperList response) {
+                        showRecycleWithDataFilled(response);
+                    }
+                });
     }
 
-    private void initializeAdapter() {
-        RVAdapter2 adapter = new RVAdapter2(persons);
+    private void showRecycleWithDataFilled(final UserSuperList myList) {
+        RVAdapter adapter = new RVAdapter(myList.getLikes());
         rv.setAdapter(adapter);
     }
 
