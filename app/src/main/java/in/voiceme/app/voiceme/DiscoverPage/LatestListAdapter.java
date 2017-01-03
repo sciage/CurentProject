@@ -282,7 +282,7 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @Override
         public void unLiked(LikeButton likeButton) {
-            try {
+     /*       try {
                 if (myClickListener != null) {
                     myClickListener.onLikeUnlikeClick(dataItem, likeButton);
                 } else {
@@ -298,7 +298,7 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 sendUnlikeToServer((VoicemeApplication) itemView.getContext().getApplicationContext(), 0, 1, 0, 0, "clicked unhug button");
             } else if (likeButton == SameButtonMain) {
                 sendUnlikeToServer((VoicemeApplication) itemView.getContext().getApplicationContext(), 0, 0, 1, 0, "clicked unsame button");
-            }
+            } */
         }
 
     }

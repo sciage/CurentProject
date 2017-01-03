@@ -1,5 +1,7 @@
 package in.voiceme.app.voiceme.DiscoverPage;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,11 +13,14 @@ import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 
 import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
+import in.voiceme.app.voiceme.infrastructure.MySharedPreferences;
+import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.LikesResponse;
 import in.voiceme.app.voiceme.services.PostsModel;
 import rx.android.schedulers.AndroidSchedulers;
+
+import static in.voiceme.app.voiceme.infrastructure.Constants.CONSTANT_PREF_FILE;
 
 public abstract class PostsCardViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, OnLikeListener {
     //Imageview for avatar and play pause button
@@ -230,7 +235,8 @@ public abstract class PostsCardViewHolder extends RecyclerView.ViewHolder implem
     }
 
     protected void sendLikeToServer(final VoicemeApplication application, int like, int hug, int same, int listen, final String message) {
-        int userId = application.getAuth().getUser().getIdUserName();
+        SharedPreferences preferences = application.getSharedPreferences(CONSTANT_PREF_FILE, Context.MODE_PRIVATE);
+        String userId = MySharedPreferences.getUserId(preferences);
         String postId = dataItem.getIdPosts();
         application.getWebService().likes(userId, postId, like, hug, same, listen)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -243,7 +249,8 @@ public abstract class PostsCardViewHolder extends RecyclerView.ViewHolder implem
     }
 
     protected void sendUnlikeToServer(final VoicemeApplication application, int like, int hug, int same, int listen, final String message) {
-        int userId = application.getAuth().getUser().getIdUserName();
+        SharedPreferences preferences = application.getSharedPreferences(CONSTANT_PREF_FILE, Context.MODE_PRIVATE);
+        String userId = MySharedPreferences.getUserId(preferences);
         String postId = dataItem.getIdPosts();
         application.getWebService().likes(userId, postId, like, hug, same, listen)
                 .observeOn(AndroidSchedulers.mainThread())

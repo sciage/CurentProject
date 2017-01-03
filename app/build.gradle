@@ -109,6 +109,9 @@ dependencies {
         transitive = true;
     }
     compile 'com.amazonaws:aws-android-sdk-lambda:2.3.8'
+
+    // material EditText
+    compile 'com.github.florent37:materialtextfield:1.0.5'
 }
 // ADD THIS AT THE BOTTOM
 apply plugin: 'com.google.gms.google-services'

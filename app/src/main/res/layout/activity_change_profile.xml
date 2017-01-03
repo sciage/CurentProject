@@ -12,10 +12,42 @@
 
         <include layout="@layout/include_toolbar"
             android:background="#5c6bc0"/>
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_delete_blue_500_36dp" />
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Contacts!"/>
+            android:id="@+id/edittext_profile_username"
+            android:layout_margin="10dp"
+            android:hint="Username"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edittext_profile_aboutme"
+            android:layout_margin="10dp"
+            android:hint="About me"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edittext_profile_age"
+            android:layout_margin="10dp"
+            android:hint="Age"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edittext_profile_gender"
+            android:layout_margin="10dp"
+            android:hint="Gender"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/edittext_profile_location"
+            android:layout_margin="10dp"
+            android:hint="Location"/>
+
     </LinearLayout>
 
     <include layout="@layout/include_main_nav_drawer" />
