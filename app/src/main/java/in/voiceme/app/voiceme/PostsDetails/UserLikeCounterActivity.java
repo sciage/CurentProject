@@ -20,7 +20,7 @@ public class UserLikeCounterActivity extends BaseActivity {
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
         setContentView(R.layout.activity_user_like_counter);
-        getSupportActionBar().setTitle("User Who Liked the post");
+        getSupportActionBar().setTitle("Like LoginUser");
         toolbar.setNavigationIcon(R.mipmap.ic_ab_close);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +48,7 @@ public class UserLikeCounterActivity extends BaseActivity {
     }
 
     private void initializeAdapter() {
-        RVAdapter adapter = new RVAdapter(persons);
+        RVAdapter2 adapter = new RVAdapter2(persons);
         rv.setAdapter(adapter);
     }
 

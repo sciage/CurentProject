@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.infrastructure.BaseActivity;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import in.voiceme.app.voiceme.R;
+import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 
 public class UserListenCounterActivity extends BaseActivity {
 
@@ -47,7 +49,7 @@ public class UserListenCounterActivity extends BaseActivity {
     }
 
     private void initializeAdapter() {
-        RVAdapter adapter = new RVAdapter(persons);
+        RVAdapter2 adapter = new RVAdapter2(persons);
         rv.setAdapter(adapter);
     }
 

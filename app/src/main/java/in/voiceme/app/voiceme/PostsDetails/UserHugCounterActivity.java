@@ -45,7 +45,7 @@ public class UserHugCounterActivity extends BaseActivity {
   }
 
   private void initializeAdapter() {
-    RVAdapter adapter = new RVAdapter(persons);
+    RVAdapter2 adapter = new RVAdapter2(persons);
     rv.setAdapter(adapter);
   }
 }

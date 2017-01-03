@@ -71,6 +71,10 @@ public interface WebService {
     @GET("posts.php")
     Observable<List<PostsModel>> getCategoryPosts(@Query("category_id") String category_id);
 
+    @GET("posts.php")
+    Observable<List<PostsModel>> getInteractionPosts(
+            @Query("id_user") String category_id,
+            @Query("filtered") String filtered);
 
 
 

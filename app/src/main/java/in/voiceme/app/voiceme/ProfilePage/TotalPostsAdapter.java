@@ -17,6 +17,8 @@ import java.util.List;
 
 import in.voiceme.app.voiceme.DiscoverPage.LikeUnlikeClickListener;
 import in.voiceme.app.voiceme.DiscoverPage.PostsCardViewHolder;
+import in.voiceme.app.voiceme.PostsDetails.UserCategoryActivity;
+import in.voiceme.app.voiceme.PostsDetails.UserFeelingActivity;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.PostsDetails.UserHugCounterActivity;
 import in.voiceme.app.voiceme.PostsDetails.UserLikeCounterActivity;
@@ -204,6 +206,21 @@ public class TotalPostsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         protected void likeCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserLikeCounterActivity.class);
+            v.getContext().startActivity(intent);
+        }
+
+        @Override
+        protected void categoryClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserCategoryActivity.class);
+            intent.putExtra("CategoryFromPosts", getCategory().getText().toString());
+            Toast.makeText(v.getContext(), "Category ID is " + getCategory().getText().toString(), Toast.LENGTH_SHORT).show();
+            v.getContext().startActivity(intent);
+        }
+
+        @Override
+        protected void feelingClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserFeelingActivity.class);
+            intent.putExtra("FeelingFromPosts", getFeeling().getText().toString());
             v.getContext().startActivity(intent);
         }
 

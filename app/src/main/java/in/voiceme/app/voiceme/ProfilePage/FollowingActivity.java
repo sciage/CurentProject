@@ -8,9 +8,9 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.PostsDetails.Person;
-import in.voiceme.app.voiceme.PostsDetails.RVAdapter;
+import in.voiceme.app.voiceme.PostsDetails.RVAdapter2;
+import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 
 public class FollowingActivity extends BaseActivity {
@@ -48,7 +48,7 @@ public class FollowingActivity extends BaseActivity {
     }
 
     private void initializeAdapter() {
-        RVAdapter adapter = new RVAdapter(persons);
+        RVAdapter2 adapter = new RVAdapter2(persons);
         rv.setAdapter(adapter);
     }
 }
