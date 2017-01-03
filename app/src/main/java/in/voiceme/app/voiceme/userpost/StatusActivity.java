@@ -27,19 +27,20 @@ public class StatusActivity extends BaseActivity {
         setNavDrawer(new MainNavDrawer(this));
 
         Button button = (Button) findViewById(R.id.btn_status);
-        EditText textStatus = (EditText) findViewById(R.id.edit_text_status);
+        text_status = (EditText) findViewById(R.id.edit_text_status);
 
-        final String status = textStatus.getText().toString();
+
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // get the Entered  message
+                String status = text_status.getText().toString();
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("resultFromStatus", status);
                 setResult(Activity.RESULT_OK,returnIntent);
                 finish();
-
             }
         });
 

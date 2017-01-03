@@ -196,10 +196,6 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
             application.getAuth().getUser().setLoggedIn(true);
             setResult(RESULT_OK);
 
-            if (preferences != null){
-                Timber.d(String.valueOf("Amazon Identity ID : " + MySharedPreferences.getAmazonID(preferences)));
-            }
-
             GoogleSignInAccount account = result.getSignInAccount();
             if (account != null) {
                 Timber.d(String.valueOf("Display name : " + result.getSignInAccount().getDisplayName()));
@@ -239,6 +235,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
     private void UserData(LoginResponse response){
         MySharedPreferences.registerUserId(preferences, response.info.id);
         Timber.d("the user ID is" + response.info.id);
+
         Timber.e("Successfully entered the value inside SharedPreferences");
     }
 
@@ -280,6 +277,14 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
             Timber.d(String.valueOf("Email : " + ""));
             Timber.d(String.valueOf("Photo url : " + profile.getProfilePictureUri(500, 500)));
         }
+
+        try {
+            getData(profile.getName(), profile.getId(), "",  profile.getProfilePictureUri(500, 500));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
 
 
         application.getAuth().getUser().setLoggedIn(true);

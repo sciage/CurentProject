@@ -7,16 +7,25 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import in.voiceme.app.voiceme.PostsDetails.PostsDetailsActivity;
+import in.voiceme.app.voiceme.ActivityPage.MainActivity;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
+import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.MainNavDrawer;
+import in.voiceme.app.voiceme.infrastructure.MySharedPreferences;
+import rx.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 
 public class TextStatus extends BaseActivity {
     private TextView textView_category;
     private TextView textView_feeling;
     private TextView textView_status;
     //private TextModel textModel;
+
+    private String category;
+    private String feeling;
+    private String textStatus;
+
 
     private Button button_post_text_status;
 
@@ -42,14 +51,14 @@ public class TextStatus extends BaseActivity {
         textView_feeling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent feelingIntent = new Intent(TextStatus.this, FeelingActivity.class);
+                Intent feelingIntent = new Intent(TextStatus.this, FeelingActivity.class);
                 startActivityForResult(feelingIntent, 2);
             }
         });
         textView_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent statusIntent = new Intent(TextStatus.this, StatusActivity.class);
+                Intent statusIntent = new Intent(TextStatus.this, StatusActivity.class);
                 startActivityForResult(statusIntent, 3);
             }
         });
@@ -57,8 +66,27 @@ public class TextStatus extends BaseActivity {
         button_post_text_status.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Intent intent = new Intent(TextStatus.this, PostsDetailsActivity.class);
-               startActivity(intent);
+                if (category == null || feeling == null || textStatus == null) {
+                    Toast.makeText(TextStatus.this, "Please select all categories to Post Status", Toast.LENGTH_SHORT).show();
+                }
+                // network call from retrofit
+                try {
+                    application.getWebService().postStatus(MySharedPreferences.getUserId(preferences),
+                            textStatus, category, feeling, "")
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new BaseSubscriber<Response>() {
+                                @Override
+                                public void onNext(Response response) {
+                                    Timber.e("Response " + response.getStatus() + "===" + response.getMsg());
+                                    if (response.getStatus() == 1){
+                                        Toast.makeText(TextStatus.this, "Successfully posted status", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(TextStatus.this, MainActivity.class));
+                                    }
+                                }
+                            });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -67,23 +95,23 @@ public class TextStatus extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1){
-            if (resultCode == RESULT_OK){
-                String result=data.getStringExtra("resultFromCategory");
-                //  textModel.setCategory_id(result);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                String result = data.getStringExtra("resultFromCategory");
+                category = result;
                 Toast.makeText(this, "Data returned: " + result, Toast.LENGTH_SHORT).show();
             }
-        } else if (requestCode == 2){
-            if (resultCode == RESULT_OK){
-                String result=data.getStringExtra("resultFromFeeling");
-                //  textModel.setFeeling_id(result);
+        } else if (requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                String result = data.getStringExtra("resultFromFeeling");
+                feeling = result;
                 Toast.makeText(this, "Data returned: " + result, Toast.LENGTH_SHORT).show();
 
             }
-        } else if (requestCode == 3){
-            if (resultCode == RESULT_OK){
-                String result=data.getStringExtra("resultFromStatus");
-                //   textModel.setText_Status(result);
+        } else if (requestCode == 3) {
+            if (resultCode == RESULT_OK) {
+                String result = data.getStringExtra("resultFromStatus");
+                textStatus = result;
                 Toast.makeText(this, "Data returned: " + result, Toast.LENGTH_SHORT).show();
             }
         }

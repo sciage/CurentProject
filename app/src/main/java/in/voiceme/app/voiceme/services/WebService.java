@@ -5,6 +5,7 @@ import android.net.Uri;
 import java.util.List;
 
 import in.voiceme.app.voiceme.login.LoginResponse;
+import in.voiceme.app.voiceme.userpost.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -53,6 +54,17 @@ public interface WebService {
             @Field("profile") Uri profile,
             @Field("gender") String gender
     );
+
+    @FormUrlEncoded
+    @POST("postStatus.php")
+    Observable<Response> postStatus(
+            @Field("user_id") String user_id,
+            @Field("post_text") String postStatus,
+            @Field("cat_id") String cat_id,
+            @Field("feeling_id") String feeling_id,
+            @Field("audio") String audio
+    );
+
 
 
 

@@ -52,7 +52,7 @@ public class FeelingActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(boolean isChecked) {
                 if (happy_switch_button.isChecked()){
-                    setFeeling("happy = 3");
+                    setFeeling("3");
                     if (relax_switch_button.isChecked()){
                         relax_switch_button.toggle();
                     } else if (angry_switch_button.isChecked()){
@@ -70,7 +70,7 @@ public class FeelingActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(boolean isChecked) {
                 if (relax_switch_button.isChecked()){
-                    setFeeling("relax = 2");
+                    setFeeling("2");
                     if (happy_switch_button.isChecked()){
                         happy_switch_button.toggle();
                     } else if (angry_switch_button.isChecked()){
@@ -88,7 +88,7 @@ public class FeelingActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(boolean isChecked) {
                 if (angry_switch_button.isChecked()){
-                    setFeeling("angry = 1");
+                    setFeeling("1");
                     if (happy_switch_button.isChecked()){
                         happy_switch_button.toggle();
                     } else if (relax_switch_button.isChecked()){
@@ -105,7 +105,7 @@ public class FeelingActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(boolean isChecked) {
                 if (sad_switch_button.isChecked()){
-                    setFeeling("sad = 4");
+                    setFeeling("4");
                     if (happy_switch_button.isChecked()){
                         happy_switch_button.toggle();
                     } else if (angry_switch_button.isChecked()){
@@ -122,7 +122,7 @@ public class FeelingActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(boolean isChecked) {
                 if (bored_switch_button.isChecked()){
-                    setFeeling("bored = 5");
+                    setFeeling("5");
                     if (happy_switch_button.isChecked()){
                         happy_switch_button.toggle();
                     } else if (angry_switch_button.isChecked()){
