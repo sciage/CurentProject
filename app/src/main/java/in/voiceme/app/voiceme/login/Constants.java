@@ -10,10 +10,8 @@ public interface Constants {
     String FACEBOOK_LOGIN = "graph.facebook.com";
 
     String PREF_FILE = "prefs.xml";
-
-    String CONSTANT_PREF_FILE = "constantPref.xml";
+    String CONSTANT_PREF_FILE = "constant_prefs.xml";
 
     String KEY_LAST_USED_PROVIDER = "last_used_provider";
     String KEY_PROVIDER_TOKEN = "last_provider_token";
-    String KEY_IDENTITY_ID = "KEY_IDENTITY_ID";
 }

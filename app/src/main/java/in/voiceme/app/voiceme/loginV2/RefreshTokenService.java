@@ -15,6 +15,9 @@ public class RefreshTokenService extends Job {
 
   public static final String TAG = "job_refresh_token";
 
+  public RefreshTokenService() {
+  }
+
   public RefreshTokenService(Context context, Runnable runnable) {
     this.context = context;
     this.runnable = runnable;

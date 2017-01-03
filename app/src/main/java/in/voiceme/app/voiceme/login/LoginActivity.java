@@ -31,13 +31,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     if (resultCode != RESULT_OK) return;
 
-    if (requestCode == REQUEST_REGISTER && resultCode == RESULT_OK) {
+    if (requestCode == REQUEST_REGISTER) {
       finishLogin();
     }
   }
 
   private void finishLogin() {
-    startActivity(new Intent(this, LoginUserDetails.class));
+    startActivity(new Intent(this, MainActivity.class));
     finish();
   }
 }

@@ -14,7 +14,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -27,18 +26,17 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.MySharedPreferences;
-import in.voiceme.app.voiceme.services.PostsModel;
 import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
-public class RegisterActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener, Constants {
+public class RegisterActivity extends BaseActivity
+        implements GoogleApiClient.OnConnectionFailedListener, Constants {
 
     private static String TAG = RegisterActivity.class.getSimpleName();
 
@@ -47,7 +45,6 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
     private static final String EMAIL = "email";
     //Activity requests
     private static final int GOOGLE_SIGN_IN = 1;
-    private FacebookUser facebookUser;
 
     // Google
     private SignInButton googleSignInBtn;
@@ -57,23 +54,20 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
     private LoginButton facebookSignInBtn;
     private CallbackManager callbackManager;
 
-    private List<PostsModel> userModel;
-
 
     /* Implements GoogleApiClient.OnConnectionFailedListener */
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        String message = String.format("Failed to connect to Google [error #%d, %s]...", connectionResult.getErrorCode(), connectionResult.getErrorMessage());
+        String message = String.format("Failed to connect to Google [error #%d, %s]...",
+                connectionResult.getErrorCode(), connectionResult.getErrorMessage());
         Log.e(TAG, message);
     }
-
 
     @Override
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
         String token = FirebaseInstanceId.getInstance().getToken();
-
 
         // Log.d("Id Generated", token);
         Toast.makeText(RegisterActivity.this, token, Toast.LENGTH_SHORT).show();
@@ -85,6 +79,12 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
         this.setUpGoogleSignIn();
 
         this.setUpFacebookSignIn();
+
+        // initFacebookLogin();
+        //   initGoogleLogin();
+
+        //   outputCognitoCredentials();
+
     }
 
     @Override
@@ -97,7 +97,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             this.handleGoogleSignInResult(result);
         } else {
-            // We are coming back from the Google login activity
+            // We are coming back from the Facebook login activity
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -122,10 +122,8 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
             @Override
             public void onSuccess(LoginResult loginResult) {
-
                 RegisterActivity.this.handleFacebookLogin(loginResult);
             }
-
 
             @Override
             public void onCancel() {
@@ -154,13 +152,11 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
         } */
 
         // We configure the Google Sign in button
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(serverClientId)
-                .requestEmail()
-                .build();
+        GoogleSignInOptions gso =
+                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(
+                        serverClientId).requestEmail().build();
 
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, this)
+        googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
@@ -177,7 +173,6 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
         });
     }
 
-
     /**
      * Handle Google sign in result
      */
@@ -192,9 +187,10 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
             logins.put(GOOGLE_LOGIN, acct.getIdToken());
 
             Log.v(TAG, String.format("Google token <<<\n%s\n>>>", logins.get(GOOGLE_LOGIN)));
-            new CreateIdentityTask(this, preferences).execute(logins);
+
+            // The identity must be created asynchronously
+            new CreateIdentityTask(this).execute(logins);
             application.getAuth().getUser().setLoggedIn(true);
-            setResult(RESULT_OK);
 
             GoogleSignInAccount account = result.getSignInAccount();
             if (account != null) {
@@ -202,7 +198,6 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
                 Timber.d(String.valueOf("Id : " + result.getSignInAccount().getId()));
                 Timber.d(String.valueOf("Email : " + result.getSignInAccount().getEmail()));
                 Timber.d(String.valueOf("Photo url : " + result.getSignInAccount().getPhotoUrl()));
-
             }
 
             try {
@@ -210,7 +205,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            setResult(RESULT_OK);
             finish();
         } else {
 
@@ -220,7 +215,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
     }
 
     private void getData(String name, String identityID, String email, Uri profile) throws Exception {
-                application.getWebService()
+        application.getWebService()
                 .login(name, email,"", "",identityID,profile,"")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<LoginResponse>() {
@@ -234,11 +229,10 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
     private void UserData(LoginResponse response){
         MySharedPreferences.registerUserId(preferences, response.info.id);
-        Timber.d("the user ID is" + response.info.id);
+        Timber.d("the user ID is " + response.info.id);
 
         Timber.e("Successfully entered the value inside SharedPreferences");
     }
-
 
     /**
      * Handle a Facebook login error
@@ -247,9 +241,9 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
      */
     private void handleFacebookError(FacebookException error) {
 
-        String message = String.format("Failed to authenticate against Facebook %s - \"%s\"", error.getClass().getSimpleName(), error.getLocalizedMessage());
+        String message = String.format("Failed to authenticate against Facebook %s - \"%s\"",
+                error.getClass().getSimpleName(), error.getLocalizedMessage());
         Log.e(TAG, message, error);
-
     }
 
     /**
@@ -257,7 +251,7 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
      *
      * @param loginResult the successful login result
      */
-    private void handleFacebookLogin(final LoginResult loginResult) {
+    private void handleFacebookLogin(LoginResult loginResult) {
 
         Log.v(TAG, "Successfully logged in with Facebook...");
 
@@ -265,34 +259,12 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
         logins.put(FACEBOOK_LOGIN, AccessToken.getCurrentAccessToken().getToken());
         Log.v(TAG, String.format("Facebook token <<<\n%s\n>>>", logins.get(FACEBOOK_LOGIN)));
 
-
         // The identity must be created asynchronously
-        new CreateIdentityTask(this, preferences).execute(logins);
-
-        Profile profile = Profile.getCurrentProfile();
-
-        if (profile != null) {
-            Timber.d(String.valueOf("Display name : " + profile.getName()));
-            Timber.d(String.valueOf("Id : " + profile.getId()));
-            Timber.d(String.valueOf("Email : " + ""));
-            Timber.d(String.valueOf("Photo url : " + profile.getProfilePictureUri(500, 500)));
-        }
-
-        try {
-            getData(profile.getName(), profile.getId(), "",  profile.getProfilePictureUri(500, 500));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-
-
+        new CreateIdentityTask(this).execute(logins);
         application.getAuth().getUser().setLoggedIn(true);
         setResult(RESULT_OK);
         finish();
     }
-
-
 
     /**
      * <h2>refreshCredentialsProvider</h2>
@@ -348,7 +320,6 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -363,11 +334,6 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
 
     /*
     @Override
@@ -445,5 +411,4 @@ public class RegisterActivity extends BaseActivity implements GoogleApiClient.On
     public void onGoogleAuthSignInFailed() {
         Toast.makeText(this, "Google sign in failed.", Toast.LENGTH_SHORT).show();
     }*/
-
 }

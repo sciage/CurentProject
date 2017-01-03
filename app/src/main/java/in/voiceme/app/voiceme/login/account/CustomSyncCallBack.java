@@ -17,10 +17,10 @@ import java.util.List;
 public class CustomSyncCallBack extends DefaultSyncCallback {
 
     private static final String TAG = CustomSyncCallBack.class.getSimpleName();
-    AccountManager.SyncObserver observer;
+    SyncObserver observer;
 
 
-    public CustomSyncCallBack(AccountManager.SyncObserver observer) {
+    public CustomSyncCallBack(SyncObserver observer) {
         this.observer = observer;
     }
 

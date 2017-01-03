@@ -1,7 +1,9 @@
 package in.voiceme.app.voiceme.loginV2;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.facebook.AccessToken;
@@ -19,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.login.LoginActivity;
 import in.voiceme.app.voiceme.login.RefreshTokenTask;
 import in.voiceme.app.voiceme.login.account.AccountManager;
@@ -28,14 +29,17 @@ import timber.log.Timber;
 import static in.voiceme.app.voiceme.login.Constants.FACEBOOK_LOGIN;
 import static in.voiceme.app.voiceme.login.Constants.GOOGLE_LOGIN;
 import static in.voiceme.app.voiceme.login.Constants.KEY_LAST_USED_PROVIDER;
+import static in.voiceme.app.voiceme.login.Constants.PREF_FILE;
 
-public class AuthService extends BaseActivity {
+public class AuthService {
 
   private AccountManager manager;
+  private SharedPreferences settings;
   private Context context;
 
   public AuthService(Context context) {
     this.context = context;
+    settings = context.getSharedPreferences(PREF_FILE, Activity.MODE_PRIVATE);
   }
 
   public void refreshToken(Runnable onCompletion) {
@@ -56,7 +60,7 @@ public class AuthService extends BaseActivity {
    */
   private void refreshCredentials(Runnable onCompletion, Context context) {
 
-    String lastUsedProvider = preferences.getString(KEY_LAST_USED_PROVIDER, null);
+    String lastUsedProvider = settings.getString(KEY_LAST_USED_PROVIDER, null);
 
     // The below might produce an NPE, but should not. Left as is on purpose (would highlight a flow issue)
     if (lastUsedProvider.equals(GOOGLE_LOGIN)) {
