@@ -10,12 +10,14 @@ import java.util.List;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
+import in.voiceme.app.voiceme.infrastructure.Constants;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class UserLikeCounterActivity extends BaseActivity {
     private static final int REQUEST_VIEW_MESSAGE = 1;
     private List<Person> persons;
     private RecyclerView rv;
+    private String likeCounter;
 
     @Override
     protected void onCreate(Bundle savedState) {
@@ -26,9 +28,12 @@ public class UserLikeCounterActivity extends BaseActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                likeCounter = null;
                 finish();
             }
         });
+
+        likeCounter = getIntent().getStringExtra(Constants.LIKE_FEELING);
 
         rv = (RecyclerView) findViewById(R.id.counter_like_recyclerview);
 
@@ -40,10 +45,12 @@ public class UserLikeCounterActivity extends BaseActivity {
 
     }
 
+
+
     private void initializeData() {
 
         application.getWebService()
-                .getInteractionPosts("1")
+                .getInteractionPosts(likeCounter)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<UserSuperList>() {
                     @Override

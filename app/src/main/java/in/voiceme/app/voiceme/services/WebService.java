@@ -18,17 +18,17 @@ public interface WebService {
     @GET("posts.php")
     Observable<List<PostsModel>> getLatestFeed();
 
-    @FormUrlEncoded
-    @POST("posts.php")
-    Observable<List<PostsModel>> getFollowers(@Field("follower") String user_id);
+  //  @FormUrlEncoded
+    @GET("posts.php")
+    Observable<List<PostsModel>> getFollowers(@Query("follower") String user_id);
 
-    @FormUrlEncoded
-    @POST("posts.php")
-    Observable<List<PostsModel>> getPopulars(@Field("popular") String booleann);
+  //  @FormUrlEncoded
+    @GET("posts.php")
+    Observable<List<PostsModel>> getPopulars(@Query("popular") String booleann);
 
-    @FormUrlEncoded
-    @POST("posts.php")
-    Observable<List<PostsModel>> getTrending(@Field("trending") String booleann);
+  //  @FormUrlEncoded
+    @GET("posts.php")
+    Observable<List<PostsModel>> getTrending(@Query("trending") String booleann);
 
     @GET("likes.php")
     Observable<LikesResponse> likes(@Query("user_id") int userId, @Query("post_id") String postId,

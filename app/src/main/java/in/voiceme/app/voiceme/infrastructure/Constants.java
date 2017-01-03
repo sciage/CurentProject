@@ -1,4 +1,4 @@
-package in.voiceme.app.voiceme.login;
+package in.voiceme.app.voiceme.infrastructure;
 
 /**
  * Project AwsCognitoTest
@@ -14,4 +14,12 @@ public interface Constants {
 
     String KEY_LAST_USED_PROVIDER = "last_used_provider";
     String KEY_PROVIDER_TOKEN = "last_provider_token";
+
+    String HUG_FEELING = "HUG_FEELING";
+    String LIKE_FEELING = "LIKE_FEELING";
+    String SAME_FEELING = "SAME_FEELING";
+    String LISTEN_FEELING = "LISTEN_FEELING";
+
+    String EMOTION = "EMOTION";
+    String CATEGORY = "CATEGORY";
 }

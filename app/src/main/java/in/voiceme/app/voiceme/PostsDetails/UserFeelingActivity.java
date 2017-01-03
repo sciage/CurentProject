@@ -15,6 +15,7 @@ import in.voiceme.app.voiceme.DiscoverPage.LikeUnlikeClickListener;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
+import in.voiceme.app.voiceme.infrastructure.Constants;
 import in.voiceme.app.voiceme.services.PostsModel;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -49,7 +50,7 @@ public class UserFeelingActivity extends BaseActivity {
         });
         recyclerView = (RecyclerView) findViewById(R.id.user_feeling_recyclerview);
 
-        emotionId = getIntent().getStringExtra("FeelingFromPosts");
+        emotionId = getIntent().getStringExtra(Constants.EMOTION);
 
         if (emotionId.equals(angry)){
             Toast.makeText(this, "emotion ID = 1", Toast.LENGTH_SHORT).show();

@@ -5,17 +5,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
+import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
+import in.voiceme.app.voiceme.infrastructure.Constants;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class UserListenCounterActivity extends BaseActivity {
 
     private static final int REQUEST_VIEW_MESSAGE = 1;
     private List<Person> persons;
     private RecyclerView rv;
+    private String likeCounter;
 
     @Override
     protected void onCreate(Bundle savedState) {
@@ -30,6 +33,8 @@ public class UserListenCounterActivity extends BaseActivity {
             }
         });
 
+        likeCounter = getIntent().getStringExtra(Constants.LISTEN_FEELING);
+
         rv = (RecyclerView) findViewById(R.id.counter_listen_recyclerview);
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -37,19 +42,24 @@ public class UserListenCounterActivity extends BaseActivity {
         rv.setHasFixedSize(true);
 
         initializeData();
-        initializeAdapter();
 
     }
 
     private void initializeData() {
-        persons = new ArrayList<>();
-        persons.add(new Person("Emma Wilson", R.mipmap.ic_launcher));
-        persons.add(new Person("Lavery Maiss", R.mipmap.ic_launcher));
-        persons.add(new Person("Lillie Watts", R.mipmap.ic_launcher));
+
+        application.getWebService()
+                .getInteractionPosts(likeCounter)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<UserSuperList>() {
+                    @Override
+                    public void onNext(UserSuperList response) {
+                        showRecycleWithDataFilled(response);
+                    }
+                });
     }
 
-    private void initializeAdapter() {
-        RVAdapter2 adapter = new RVAdapter2(persons);
+    private void showRecycleWithDataFilled(final UserSuperList myList) {
+        RVAdapter adapter = new RVAdapter(myList.getListen());
         rv.setAdapter(adapter);
     }
 

@@ -26,10 +26,10 @@ import in.voiceme.app.voiceme.login.RefreshTokenTask;
 import in.voiceme.app.voiceme.login.account.AccountManager;
 import timber.log.Timber;
 
-import static in.voiceme.app.voiceme.login.Constants.FACEBOOK_LOGIN;
-import static in.voiceme.app.voiceme.login.Constants.GOOGLE_LOGIN;
-import static in.voiceme.app.voiceme.login.Constants.KEY_LAST_USED_PROVIDER;
-import static in.voiceme.app.voiceme.login.Constants.PREF_FILE;
+import static in.voiceme.app.voiceme.infrastructure.Constants.FACEBOOK_LOGIN;
+import static in.voiceme.app.voiceme.infrastructure.Constants.GOOGLE_LOGIN;
+import static in.voiceme.app.voiceme.infrastructure.Constants.KEY_LAST_USED_PROVIDER;
+import static in.voiceme.app.voiceme.infrastructure.Constants.PREF_FILE;
 
 public class AuthService {
 

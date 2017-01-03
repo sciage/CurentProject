@@ -22,6 +22,7 @@ import in.voiceme.app.voiceme.PostsDetails.UserLikeCounterActivity;
 import in.voiceme.app.voiceme.PostsDetails.UserListenCounterActivity;
 import in.voiceme.app.voiceme.PostsDetails.UserSameCounterActivity;
 import in.voiceme.app.voiceme.R;
+import in.voiceme.app.voiceme.infrastructure.Constants;
 import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.PostsModel;
 
@@ -200,14 +201,14 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         protected void listenCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserListenCounterActivity.class);
             Toast.makeText(v.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
-            intent.putExtra("listenPostValue", dataItem.getIdPosts());
+            intent.putExtra(Constants.LISTEN_FEELING, dataItem.getIdPosts());
             v.getContext().startActivity(intent);
         }
 
         @Override
         protected void categoryClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserCategoryActivity.class);
-            intent.putExtra("CategoryFromPosts", getCategory().getText().toString());
+            intent.putExtra(Constants.CATEGORY, getCategory().getText().toString());
             v.getContext().startActivity(intent);
         }
 
@@ -216,7 +217,7 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             // add feeling ID to get feeling Posts from current pojo
 
             Intent intent = new Intent(v.getContext(), UserFeelingActivity.class);
-            intent.putExtra("FeelingFromPosts", getFeeling().getText().toString());
+            intent.putExtra(Constants.EMOTION, getFeeling().getText().toString());
             v.getContext().startActivity(intent);
         }
 
@@ -224,7 +225,7 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         protected void likeCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserLikeCounterActivity.class);
             Toast.makeText(v.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
-            intent.putExtra("likePostValue", dataItem.getIdPosts());
+            intent.putExtra(Constants.LIKE_FEELING, dataItem.getIdPosts());
             v.getContext().startActivity(intent);
         }
 
@@ -232,7 +233,7 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         protected void hugCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserHugCounterActivity.class);
             Toast.makeText(v.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
-            intent.putExtra("HugPostValue", dataItem.getIdPosts());
+            intent.putExtra(Constants.HUG_FEELING, dataItem.getIdPosts());
             v.getContext().startActivity(intent);
         }
 
@@ -240,7 +241,7 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         protected void sameCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserSameCounterActivity.class);
             Toast.makeText(v.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
-            intent.putExtra("samePostValue", dataItem.getIdPosts());
+            intent.putExtra(Constants.SAME_FEELING, dataItem.getIdPosts());
             v.getContext().startActivity(intent);
         }
 

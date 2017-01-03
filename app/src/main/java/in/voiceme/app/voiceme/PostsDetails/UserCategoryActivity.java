@@ -15,6 +15,7 @@ import in.voiceme.app.voiceme.DiscoverPage.LikeUnlikeClickListener;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
+import in.voiceme.app.voiceme.infrastructure.Constants;
 import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.PostsModel;
 import rx.android.schedulers.AndroidSchedulers;
@@ -50,7 +51,7 @@ public class UserCategoryActivity extends BaseActivity {
         });
         recyclerView = (RecyclerView) findViewById(R.id.user_category_recyclerview);
 
-        categoryId = getIntent().getStringExtra("CategoryFromPosts");
+        categoryId = getIntent().getStringExtra(Constants.CATEGORY);
 
         if (categoryId.equals(family)){
             Toast.makeText(this, "emotion ID = 1", Toast.LENGTH_SHORT).show();

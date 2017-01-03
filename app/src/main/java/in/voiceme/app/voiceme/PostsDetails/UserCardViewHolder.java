@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import in.voiceme.app.voiceme.R;
 
 /**
@@ -52,6 +54,12 @@ public class UserCardViewHolder extends RecyclerView.ViewHolder {
 
         personName.setText(dataItem.getName());
 
-        personPhoto.setImageResource(R.drawable.ic_play_circle_outline_black_24dp);
+        if (!dataItem.getAvatar().equals("")) {
+            Picasso.with(itemView.getContext())
+                    .load(dataItem.getAvatar())
+                    .resize(75, 75)
+                    .centerInside()
+                    .into(personPhoto);
+        }
     }
 }

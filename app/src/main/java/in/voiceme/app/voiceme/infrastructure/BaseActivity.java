@@ -15,7 +15,7 @@ import in.voiceme.app.voiceme.ActivityPage.MainActivity;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.login.account.AccountManager;
 
-import static in.voiceme.app.voiceme.login.Constants.CONSTANT_PREF_FILE;
+import static in.voiceme.app.voiceme.infrastructure.Constants.CONSTANT_PREF_FILE;
 
 public abstract class BaseActivity extends AppCompatActivity {
   protected VoicemeApplication application;

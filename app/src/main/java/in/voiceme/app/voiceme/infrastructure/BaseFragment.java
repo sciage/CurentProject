@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 
 import com.squareup.otto.Bus;
 
-import static in.voiceme.app.voiceme.login.Constants.CONSTANT_PREF_FILE;
+import static in.voiceme.app.voiceme.infrastructure.Constants.CONSTANT_PREF_FILE;
 
 
 public abstract class BaseFragment extends Fragment {

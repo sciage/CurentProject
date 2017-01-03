@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import in.voiceme.app.voiceme.ProfilePage.User;
-import in.voiceme.app.voiceme.login.Constants;
 import in.voiceme.app.voiceme.login.LoginActivity;
 
 /**
