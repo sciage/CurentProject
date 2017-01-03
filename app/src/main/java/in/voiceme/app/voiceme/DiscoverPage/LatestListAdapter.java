@@ -210,7 +210,11 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @Override
         protected void feelingClicked(View v) {
+            // add feeling ID to get feeling Posts from current pojo
+
             Intent intent = new Intent(v.getContext(), UserFeelingActivity.class);
+            intent.putExtra("FeelingFromPosts", getFeeling().getText().toString());
+            Toast.makeText(v.getContext(), "Feeling ID is " + getFeeling().getText().toString(), Toast.LENGTH_SHORT).show();
             v.getContext().startActivity(intent);
         }
 

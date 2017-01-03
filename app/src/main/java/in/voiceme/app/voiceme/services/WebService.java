@@ -65,6 +65,10 @@ public interface WebService {
             @Field("audio") String audio
     );
 
+    @FormUrlEncoded
+    @POST("posts.php")
+    Observable<List<PostsModel>> getEmotionPosts(@Field("feeling_id") String feeling_id);
+
 
 
 

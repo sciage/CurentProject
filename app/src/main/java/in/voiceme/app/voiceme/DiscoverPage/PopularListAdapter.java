@@ -21,10 +21,9 @@ import in.voiceme.app.voiceme.PostsDetails.UserHugCounterActivity;
 import in.voiceme.app.voiceme.PostsDetails.UserLikeCounterActivity;
 import in.voiceme.app.voiceme.PostsDetails.UserListenCounterActivity;
 import in.voiceme.app.voiceme.PostsDetails.UserSameCounterActivity;
+import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.PostsModel;
-
-import in.voiceme.app.voiceme.R;
 
 /**
  * Created by ericbasendra on 02/12/15.
@@ -196,14 +195,14 @@ public class PopularListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         @Override
-        protected void listenCounterClicked(View v) {
-            Intent intent = new Intent(v.getContext(), UserListenCounterActivity.class);
+        protected void likeCounterClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserLikeCounterActivity.class);
             v.getContext().startActivity(intent);
         }
 
         @Override
-        protected void likeCounterClicked(View v) {
-            Intent intent = new Intent(v.getContext(), UserLikeCounterActivity.class);
+        protected void listenCounterClicked(View v) {
+            Intent intent = new Intent(v.getContext(), UserListenCounterActivity.class);
             v.getContext().startActivity(intent);
         }
 

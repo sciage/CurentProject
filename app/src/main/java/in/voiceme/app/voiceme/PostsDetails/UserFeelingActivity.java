@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.like.LikeButton;
 
@@ -14,7 +15,6 @@ import in.voiceme.app.voiceme.DiscoverPage.LikeUnlikeClickListener;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
-import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.PostsModel;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -24,6 +24,14 @@ public class UserFeelingActivity extends BaseActivity {
     private int mPage;
     private RecyclerView recyclerView;
     private UserFeelingAdapter activityInteractionAdapter;
+    private String emotionId;
+
+    private String angry = "angry";
+    private String relaxed = "relaxed";
+    private String happy = "happy";
+    private String sad = "sad";
+    private String bored = "bored";
+
 
     @Override
     protected void onCreate(Bundle savedState) {
@@ -38,6 +46,20 @@ public class UserFeelingActivity extends BaseActivity {
             }
         });
         recyclerView = (RecyclerView) findViewById(R.id.user_feeling_recyclerview);
+
+        emotionId = getIntent().getStringExtra("FeelingFromPosts");
+
+        if (emotionId.equals(angry)){
+            Toast.makeText(this, "emotion ID = 1", Toast.LENGTH_SHORT).show();
+        } else if (emotionId.equals(relaxed)){
+            Toast.makeText(this, "emotion ID = 2", Toast.LENGTH_SHORT).show();
+        } else if (emotionId.equals(happy)){
+            Toast.makeText(this, "emotion ID = 3", Toast.LENGTH_SHORT).show();
+        } else if (emotionId.equals(sad)){
+            Toast.makeText(this, "emotion ID = 4", Toast.LENGTH_SHORT).show();
+        } else if (emotionId.equals(bored)){
+            Toast.makeText(this, "emotion ID = 5", Toast.LENGTH_SHORT).show();
+        }
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
@@ -56,8 +78,8 @@ public class UserFeelingActivity extends BaseActivity {
     }
 
     private void getData() throws Exception {
-        ((VoicemeApplication) getApplication()).getWebService()
-                .getPopulars("true")
+        application.getWebService()
+                .getEmotionPosts("1")
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<List<PostsModel>>() {
                     @Override public void onNext(List<PostsModel> response) {

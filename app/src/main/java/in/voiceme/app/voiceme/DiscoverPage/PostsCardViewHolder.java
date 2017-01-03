@@ -254,4 +254,12 @@ public abstract class PostsCardViewHolder extends RecyclerView.ViewHolder implem
                     }
                 });
     }
+
+    public TextView getFeeling() {
+        return feeling;
+    }
+
+    public TextView getCategory() {
+        return category;
+    }
 }

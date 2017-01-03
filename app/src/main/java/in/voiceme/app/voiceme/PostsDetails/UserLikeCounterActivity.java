@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.infrastructure.BaseActivity;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import in.voiceme.app.voiceme.R;
+import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 
 public class UserLikeCounterActivity extends BaseActivity {
     private static final int REQUEST_VIEW_MESSAGE = 1;
@@ -18,7 +20,7 @@ public class UserLikeCounterActivity extends BaseActivity {
     protected void onCreate(Bundle savedState) {
         super.onCreate(savedState);
         setContentView(R.layout.activity_user_like_counter);
-        getSupportActionBar().setTitle("Like LoginUser");
+        getSupportActionBar().setTitle("User Who Liked the post");
         toolbar.setNavigationIcon(R.mipmap.ic_ab_close);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
