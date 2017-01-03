@@ -205,6 +205,8 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         @Override
         protected void categoryClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserCategoryActivity.class);
+            intent.putExtra("CategoryFromPosts", getCategory().getText().toString());
+            Toast.makeText(v.getContext(), "Category ID is " + getCategory().getText().toString(), Toast.LENGTH_SHORT).show();
             v.getContext().startActivity(intent);
         }
 

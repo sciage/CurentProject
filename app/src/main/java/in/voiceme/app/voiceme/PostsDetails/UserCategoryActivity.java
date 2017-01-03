@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.like.LikeButton;
 
@@ -23,6 +24,18 @@ public class UserCategoryActivity extends BaseActivity {
     private int mPage;
     private RecyclerView recyclerView;
     private UserCategoryAdapter activityInteractionAdapter;
+
+    private String categoryId;
+
+    private String family = "family";
+    private String health = "health";
+    private String work = "work";
+    private String social = "social";
+    private String others = "others";
+
+    private String currentCategoryID;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +50,26 @@ public class UserCategoryActivity extends BaseActivity {
         });
         recyclerView = (RecyclerView) findViewById(R.id.user_category_recyclerview);
 
+        categoryId = getIntent().getStringExtra("CategoryFromPosts");
+
+        if (categoryId.equals(family)){
+            Toast.makeText(this, "emotion ID = 1", Toast.LENGTH_SHORT).show();
+            setFeeling("1");
+        } else if (categoryId.equals(health)){
+            Toast.makeText(this, "emotion ID = 2", Toast.LENGTH_SHORT).show();
+            setFeeling("2");
+        } else if (categoryId.equals(work)){
+            Toast.makeText(this, "emotion ID = 3", Toast.LENGTH_SHORT).show();
+            setFeeling("3");
+        } else if (categoryId.equals(social)){
+            Toast.makeText(this, "emotion ID = 4", Toast.LENGTH_SHORT).show();
+            setFeeling("4");
+        } else if (categoryId.equals(others)){
+            Toast.makeText(this, "emotion ID = 5", Toast.LENGTH_SHORT).show();
+            setFeeling("5");
+        }
+
+
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
         recyclerView.setHasFixedSize(true);
@@ -48,13 +81,17 @@ public class UserCategoryActivity extends BaseActivity {
         }
     }
 
+    private void setFeeling(String feelingID){
+        this.currentCategoryID = feelingID;
+    }
+
     @Override public String toString() {
         return "documentary";
     }
 
     private void getData() throws Exception {
         ((VoicemeApplication) getApplication()).getWebService()
-                .getPopulars("true")
+                .getCategoryPosts(currentCategoryID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<List<PostsModel>>() {
                     @Override public void onNext(List<PostsModel> response) {

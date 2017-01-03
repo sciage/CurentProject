@@ -32,6 +32,8 @@ public class UserFeelingActivity extends BaseActivity {
     private String sad = "sad";
     private String bored = "bored";
 
+    private String feelingID;
+
 
     @Override
     protected void onCreate(Bundle savedState) {
@@ -51,15 +53,22 @@ public class UserFeelingActivity extends BaseActivity {
 
         if (emotionId.equals(angry)){
             Toast.makeText(this, "emotion ID = 1", Toast.LENGTH_SHORT).show();
+            setFeeling("1");
         } else if (emotionId.equals(relaxed)){
             Toast.makeText(this, "emotion ID = 2", Toast.LENGTH_SHORT).show();
+            setFeeling("2");
         } else if (emotionId.equals(happy)){
             Toast.makeText(this, "emotion ID = 3", Toast.LENGTH_SHORT).show();
+            setFeeling("3");
         } else if (emotionId.equals(sad)){
             Toast.makeText(this, "emotion ID = 4", Toast.LENGTH_SHORT).show();
+            setFeeling("4");
         } else if (emotionId.equals(bored)){
             Toast.makeText(this, "emotion ID = 5", Toast.LENGTH_SHORT).show();
+            setFeeling("5");
         }
+
+
 
         LinearLayoutManager llm = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(llm);
@@ -72,6 +81,10 @@ public class UserFeelingActivity extends BaseActivity {
         }
     }
 
+    private void setFeeling(String feelingID){
+        this.feelingID = feelingID;
+    }
+
 
     @Override public String toString() {
         return "documentary";
@@ -79,7 +92,7 @@ public class UserFeelingActivity extends BaseActivity {
 
     private void getData() throws Exception {
         application.getWebService()
-                .getEmotionPosts("1")
+                .getEmotionPosts(feelingID)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseSubscriber<List<PostsModel>>() {
                     @Override public void onNext(List<PostsModel> response) {

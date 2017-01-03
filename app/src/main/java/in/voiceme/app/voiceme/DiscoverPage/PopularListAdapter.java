@@ -209,6 +209,8 @@ public class PopularListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @Override
         protected void categoryClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserCategoryActivity.class);
+            intent.putExtra("CategoryFromPosts", getCategory().getText().toString());
+            Toast.makeText(v.getContext(), "Category ID is " + getCategory().getText().toString(), Toast.LENGTH_SHORT).show();
             v.getContext().startActivity(intent);
         }
 
@@ -221,6 +223,8 @@ public class PopularListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         @Override
         protected void feelingClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserFeelingActivity.class);
+            intent.putExtra("FeelingFromPosts", getFeeling().getText().toString());
+            Toast.makeText(v.getContext(), "Feeling ID is " + getFeeling().getText().toString(), Toast.LENGTH_SHORT).show();
             v.getContext().startActivity(intent);
         }
 
