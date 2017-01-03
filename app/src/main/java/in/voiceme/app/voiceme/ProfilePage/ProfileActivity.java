@@ -13,8 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
@@ -23,7 +21,6 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.voiceme.app.voiceme.R;
-import in.voiceme.app.voiceme.infrastructure.Account;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.MainNavDrawer;
@@ -96,17 +93,11 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     }
 
-    @Subscribe
-    public void onUserDetailsUpdated(Account.UserDetailsUpdatedEvent event) {
-        getSupportActionBar().setTitle(event.User.getUserNickName());
-        Picasso.with(this).load(event.User.getAvatarPics()).into(avatarView);
-    }
-
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
 
-        if (viewId == R.id.activity_profile_avatar){
+        if (viewId == R.id.image){
             changeAvatar();
         } else if (viewId == R.id.user_profile_textview){
             startActivity(new Intent(this, TotalPostsActivity.class));

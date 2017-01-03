@@ -111,9 +111,6 @@
             android:name=".login.LoginUserDetails"
             android:label="@string/title_activity_login_user_details"
             android:theme="@style/AppTheme" />
-        <activity android:name=".SocialSignInHelper.FacebookHelp" />
-        <activity android:name=".SocialSignInHelper.GoogleSignHelp" />
-        <activity android:name=".presenter.AccountActivity" />
 
         <service
             android:name=".loginV2.RefreshTokenService"
@@ -122,6 +119,11 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity android:name=".userpost.CategoryActivity" />
         <activity android:name=".userpost.FeelingActivity" />
