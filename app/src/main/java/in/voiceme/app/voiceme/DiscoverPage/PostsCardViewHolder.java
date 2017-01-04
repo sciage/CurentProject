@@ -179,7 +179,16 @@ public abstract class PostsCardViewHolder extends RecyclerView.ViewHolder implem
             }
         });
 
-        parent_row.setOnClickListener(this);
+        parent_row.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cardBackground(view);
+            }
+        });
+    }
+
+    protected void cardBackground(View view){
+
     }
 
     protected void categoryClicked(View view){

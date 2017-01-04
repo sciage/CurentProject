@@ -15,6 +15,7 @@ import com.like.OnLikeListener;
 import java.text.NumberFormat;
 import java.util.List;
 
+import in.voiceme.app.voiceme.PostsDetails.PostsDetailsActivity;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.PostsDetails.UserCategoryActivity;
 import in.voiceme.app.voiceme.PostsDetails.UserFeelingActivity;
@@ -191,6 +192,14 @@ public class TrendingListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } catch (NullPointerException e) {
                 Toast.makeText(view.getContext(), "Click Event Null Ex", Toast.LENGTH_SHORT).show();
             }
+        }
+
+        @Override
+        protected void cardBackground(View view){
+            Intent intent = new Intent(view.getContext(), PostsDetailsActivity.class);
+            Toast.makeText(view.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
+            intent.putExtra(Constants.POST_BACKGROUND, dataItem.getIdPosts());
+            view.getContext().startActivity(intent);
         }
 
         @Override

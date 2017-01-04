@@ -18,6 +18,7 @@ import java.util.List;
 import in.voiceme.app.voiceme.DiscoverPage.LikeUnlikeClickListener;
 import in.voiceme.app.voiceme.DiscoverPage.PostsCardViewHolder;
 import in.voiceme.app.voiceme.R;
+import in.voiceme.app.voiceme.infrastructure.Constants;
 import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
 import in.voiceme.app.voiceme.services.PostsModel;
 
@@ -192,41 +193,58 @@ public class UserFeelingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
 
         @Override
+        protected void cardBackground(View view){
+            Intent intent = new Intent(view.getContext(), PostsDetailsActivity.class);
+            Toast.makeText(view.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
+            intent.putExtra(Constants.POST_BACKGROUND, dataItem.getIdPosts());
+            view.getContext().startActivity(intent);
+        }
+
+        @Override
         protected void listenCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserListenCounterActivity.class);
+            Toast.makeText(v.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
+            intent.putExtra(Constants.LISTEN_FEELING, dataItem.getIdPosts());
             v.getContext().startActivity(intent);
         }
 
         @Override
         protected void categoryClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserCategoryActivity.class);
-            intent.putExtra("CategoryFromPosts", getCategory().getText().toString());
-            Toast.makeText(v.getContext(), "Category ID is " + getCategory().getText().toString(), Toast.LENGTH_SHORT).show();
+            intent.putExtra(Constants.CATEGORY, getCategory().getText().toString());
             v.getContext().startActivity(intent);
         }
 
         @Override
         protected void feelingClicked(View v) {
+            // add feeling ID to get feeling Posts from current pojo
+
             Intent intent = new Intent(v.getContext(), UserFeelingActivity.class);
-            intent.putExtra("FeelingFromPosts", getFeeling().getText().toString());
+            intent.putExtra(Constants.EMOTION, getFeeling().getText().toString());
             v.getContext().startActivity(intent);
         }
 
         @Override
         protected void likeCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserLikeCounterActivity.class);
+            Toast.makeText(v.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
+            intent.putExtra(Constants.LIKE_FEELING, dataItem.getIdPosts());
             v.getContext().startActivity(intent);
         }
 
         @Override
         protected void hugCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserHugCounterActivity.class);
+            Toast.makeText(v.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
+            intent.putExtra(Constants.HUG_FEELING, dataItem.getIdPosts());
             v.getContext().startActivity(intent);
         }
 
         @Override
         protected void sameCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserSameCounterActivity.class);
+            Toast.makeText(v.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
+            intent.putExtra(Constants.SAME_FEELING, dataItem.getIdPosts());
             v.getContext().startActivity(intent);
         }
 

@@ -12,11 +12,45 @@
 
         <include layout="@layout/include_toolbar"
             android:background="#5c6bc0"/>
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_delete_blue_500_36dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/profile_header_banner">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/changeimage"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/intruder_shanky"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#aa000000"
+            android:layout_alignTop="@id/changeimage"
+            android:layout_alignBottom="@id/changeimage"
+            android:layout_alignStart="@id/changeimage"
+            android:layout_alignLeft="@id/changeimage"
+            android:layout_alignEnd="@id/changeimage"
+            android:layout_alignRight="@id/changeimage"
+            android:id="@+id/activity_profilechange_avatarProgressFrame"
+            android:clickable="true">
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateOnly="true"/>
+        </FrameLayout>
+
+        </RelativeLayout>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

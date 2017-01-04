@@ -195,11 +195,10 @@
 
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/profile_user_name_section"
-            android:orientation="vertical">
+            android:id="@+id/profile_user_name_section">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -213,11 +212,25 @@
                 android:text="Age"
                 android:textColor="#880E4F" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/age_value"
+                android:layout_toRightOf="@+id/age"
+                android:layout_marginLeft="180dp"
+                android:layout_marginTop="30dp"
+                android:drawablePadding="24dp"
+                android:gravity="center"
+                android:text="Age"
+                android:textColor="#880E4F" />
+
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/gender"
+                android:layout_below="@+id/age"
                 android:layout_marginLeft="24dp"
                 android:layout_marginTop="26dp"
                 android:drawableLeft="@drawable/ic_mail"
@@ -229,7 +242,22 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/gender_value"
+                android:layout_toRightOf="@+id/gender"
+                android:layout_below="@+id/age_value"
+                android:layout_marginLeft="160dp"
+                android:layout_marginTop="30dp"
+                android:drawablePadding="24dp"
+                android:gravity="center"
+                android:text="Age"
+                android:textColor="#880E4F" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/location"
+                android:layout_below="@+id/gender"
                 android:layout_marginLeft="24dp"
                 android:layout_marginTop="26dp"
                 android:drawableLeft="@drawable/ic_public"
@@ -238,8 +266,21 @@
                 android:text="Location"
                 android:textColor="#880E4F" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/location_value"
+                android:layout_toRightOf="@+id/location"
+                android:layout_below="@+id/gender_value"
+                android:layout_marginLeft="152dp"
+                android:layout_marginTop="30dp"
+                android:drawablePadding="24dp"
+                android:gravity="center"
+                android:text="Age"
+                android:textColor="#880E4F" />
 
-        </LinearLayout>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
-import in.voiceme.app.voiceme.infrastructure.MainNavDrawer;
 
 public class PostsDetailsActivity extends BaseActivity implements View.OnClickListener {
 
@@ -35,7 +34,13 @@ public class PostsDetailsActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_posts_details);
         getSupportActionBar().setTitle("Home");
-        setNavDrawer(new MainNavDrawer(this));
+        toolbar.setNavigationIcon(R.mipmap.ic_ab_close);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                finish();
+            }
+        });
+
         mMessageEditText = (EditText) findViewById(R.id.et_message);
         mSendMessageImageButton = (ImageButton) findViewById(R.id.btn_send_message);
         mMessageRecyclerView = (RecyclerView) findViewById(R.id.rv_messages);

@@ -17,6 +17,7 @@ import java.util.List;
 
 import in.voiceme.app.voiceme.DiscoverPage.LikeUnlikeClickListener;
 import in.voiceme.app.voiceme.DiscoverPage.PostsCardViewHolder;
+import in.voiceme.app.voiceme.PostsDetails.PostsDetailsActivity;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.PostsDetails.UserCategoryActivity;
 import in.voiceme.app.voiceme.PostsDetails.UserFeelingActivity;
@@ -198,6 +199,14 @@ class ActivityInteractionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         }
 
+        @Override
+        protected void cardBackground(View view){
+            Intent intent = new Intent(view.getContext(), PostsDetailsActivity.class);
+            Toast.makeText(view.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
+            intent.putExtra(Constants.POST_BACKGROUND, dataItem.getIdPosts());
+            view.getContext().startActivity(intent);
+        }
+        
         @Override
         protected void likeCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserLikeCounterActivity.class);

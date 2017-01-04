@@ -15,6 +15,7 @@ import com.like.OnLikeListener;
 import java.text.NumberFormat;
 import java.util.List;
 
+import in.voiceme.app.voiceme.PostsDetails.PostsDetailsActivity;
 import in.voiceme.app.voiceme.PostsDetails.UserCategoryActivity;
 import in.voiceme.app.voiceme.PostsDetails.UserFeelingActivity;
 import in.voiceme.app.voiceme.PostsDetails.UserHugCounterActivity;
@@ -210,6 +211,14 @@ public class LatestListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             Intent intent = new Intent(v.getContext(), UserCategoryActivity.class);
             intent.putExtra(Constants.CATEGORY, getCategory().getText().toString());
             v.getContext().startActivity(intent);
+        }
+
+        @Override
+        protected void cardBackground(View view){
+            Intent intent = new Intent(view.getContext(), PostsDetailsActivity.class);
+            Toast.makeText(view.getContext(), "Post ID is " + dataItem.getIdPosts(), Toast.LENGTH_SHORT).show();
+            intent.putExtra(Constants.POST_BACKGROUND, dataItem.getIdPosts());
+            view.getContext().startActivity(intent);
         }
 
         @Override

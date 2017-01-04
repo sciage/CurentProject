@@ -22,4 +22,6 @@ public interface Constants {
 
     String EMOTION = "EMOTION";
     String CATEGORY = "CATEGORY";
+
+    String POST_BACKGROUND = "POST_BACKGROUND";
 }

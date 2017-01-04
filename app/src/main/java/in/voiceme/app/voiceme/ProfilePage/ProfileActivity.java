@@ -1,25 +1,15 @@
 package in.voiceme.app.voiceme.ProfilePage;
 
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.yalantis.ucrop.UCrop;
-
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
@@ -29,11 +19,7 @@ import in.voiceme.app.voiceme.services.PostsModel;
 import rx.android.schedulers.AndroidSchedulers;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
-    private static final int REQUEST_SELECT_IMAGE = 100;
-    private CircleImageView avatarView;
     private View avatarProgressFrame;
-    private File tempOutputFile; //storing the image temporarily while we crop it.
-
 
     private TextView username;
     private TextView about;
@@ -57,10 +43,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             e.printStackTrace();
         }
 
-
-        avatarView = (CircleImageView) findViewById(R.id.image);
         avatarProgressFrame = findViewById(R.id.activity_profile_avatarProgressFrame);
-        tempOutputFile = new File(getExternalCacheDir(), "temp-image.jpg");
 
         username = (TextView) findViewById(R.id.name);
         followers = (TextView) findViewById(R.id.profile_followers);
@@ -79,12 +62,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         location.setOnClickListener(this);
         total_posts.setOnClickListener(this);
 
-        avatarView.setOnClickListener(this);
-
         avatarProgressFrame.setVisibility(View.GONE);
-
-
-
 
 
 
@@ -97,9 +75,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         int viewId = view.getId();
 
-        if (viewId == R.id.image){
-            changeAvatar();
-        } else if (viewId == R.id.user_profile_textview){
+        if (viewId == R.id.user_profile_textview){
             startActivity(new Intent(this, TotalPostsActivity.class));
         } else if(viewId == R.id.profile_followers){
             startActivity(new Intent(this, FollowersActivity.class));
@@ -107,68 +83,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
             startActivity(new Intent(this, FollowingActivity.class));
         }
 
-    }
-
-    private void changeAvatar() {
-        List<Intent> otherImageCaptureIntent = new ArrayList<>();
-        List<ResolveInfo> otherImageCaptureActivities = getPackageManager()
-                .queryIntentActivities(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), 0); // finding all intents in apps which can handle capture image
-        // loop through all these intents and for each of these activities we need to store an intent
-        for (ResolveInfo info: otherImageCaptureActivities){ // Resolve info represents an activity on the system that does our work
-            Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            captureIntent.setClassName(info.activityInfo.packageName, info.activityInfo.name); // declaring explicitly the class where we will go
-            // where the picture activity dump the image
-            captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempOutputFile));
-            otherImageCaptureIntent.add(captureIntent);
-        }
-
-        // above code is only for taking picture and letting it go through another app for cropping before setting to imageview
-        // now below is for choosing the image from device
-
-        Intent selectImageIntent = new Intent(Intent.ACTION_PICK);
-        selectImageIntent.setType("image/*");
-
-        Intent chooser = Intent.createChooser(selectImageIntent, "Choose Avatar");
-        chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS,
-                otherImageCaptureIntent.toArray(new Parcelable[otherImageCaptureActivities.size()]));  // add 2nd para as intent of parcelables.
-
-        startActivityForResult(chooser, REQUEST_SELECT_IMAGE);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode != RESULT_OK){
-            tempOutputFile.delete();
-            return;
-        }
-
-        if (resultCode == RESULT_OK ){
-            if ( requestCode == REQUEST_SELECT_IMAGE) {
-                // user selected an image off their device. other condition they took the image and that image is in our tempoutput file
-                Uri outputFile;
-                Uri tempFileUri = Uri.fromFile(tempOutputFile);
-                // if statement will detect if the user selected an image from the device or took an image
-                if (data != null && (data.getAction() == null || !data.getAction().equals(MediaStore.ACTION_IMAGE_CAPTURE))){
-                    //then it means user selected an image off the device
-                    // so we can get the Uri of that image using data.getData
-                    outputFile = data.getData();
-                    // Now we need to do the crop
-                } else {
-                    // image was out temp file. user took an image using camera
-                    outputFile = tempFileUri;
-                    // Now we need to do the crop
-                }
-                startCropActivity(outputFile);
-
-            } else if (requestCode == UCrop.REQUEST_CROP){
-                avatarView.setImageResource(0);
-
-                avatarView.setImageURI(Uri.fromFile(tempOutputFile));
-
-                // avatarProgressFrame.setVisibility(View.VISIBLE);
-                // bus.post(new Account.ChangeAvatarRequest(Uri.fromFile(tempOutputFile)));
-            }
-
-        }
     }
 
 
@@ -184,7 +98,7 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         int itemId = item.getItemId();
 
         if (itemId == R.id.activity_profile_menuEdit) {
-         //   changeState(STATE_EDITING);
+            startActivity(new Intent(this, ChangeProfileActivity.class));
             return true;
         } else if (itemId == R.id.activity_profile_menuChangePassword) {
             //  startActivity(new Intent(this, AppConfigsActivity.class));
@@ -193,13 +107,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         return false;
     }
-
-    private void startCropActivity(@NonNull Uri uri) {
-
-        UCrop uCrop = UCrop.of(uri, Uri.fromFile(tempOutputFile));
-        uCrop.start(ProfileActivity.this);
-    }
-
 
     private void getData() throws Exception {
         ((VoicemeApplication) getApplication()).getWebService()
