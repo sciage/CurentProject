@@ -2,21 +2,18 @@ package in.voiceme.app.voiceme.ProfilePage;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.List;
-
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.MainNavDrawer;
-import in.voiceme.app.voiceme.infrastructure.VoicemeApplication;
-import in.voiceme.app.voiceme.services.PostsModel;
+import in.voiceme.app.voiceme.infrastructure.MySharedPreferences;
 import rx.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener {
     private View avatarProgressFrame;
@@ -24,7 +21,10 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private TextView username;
     private TextView about;
     private TextView total_posts;
+    private TextView total_posts_counter;
     private TextView followers;
+    private TextView followers_counter;
+    private TextView following_counter;
     private TextView following;
 
     private TextView age;
@@ -47,13 +47,16 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
         username = (TextView) findViewById(R.id.name);
         followers = (TextView) findViewById(R.id.profile_followers);
+        followers_counter = (TextView) findViewById(R.id.action_followers);
+        following_counter = (TextView) findViewById(R.id.action_following);
         following = (TextView) findViewById(R.id.profile_following);
         about = (TextView) findViewById(R.id.about);
         total_posts = (TextView) findViewById(R.id.user_profile_textview);
+        total_posts_counter = (TextView) findViewById(R.id.total_posts_counter);
 
-        age = (TextView) findViewById(R.id.age);
-        gender = (TextView) findViewById(R.id.gender);
-        location = (TextView) findViewById(R.id.location);
+        age = (TextView) findViewById(R.id.age_value);
+        gender = (TextView) findViewById(R.id.gender_value);
+        location = (TextView) findViewById(R.id.location_value);
 
         followers.setOnClickListener(this);
         following.setOnClickListener(this);
@@ -109,18 +112,29 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void getData() throws Exception {
-        ((VoicemeApplication) getApplication()).getWebService()
-                .getFollowers("2")
+                application.getWebService()
+                .getUserProfile(MySharedPreferences.getUserId(preferences))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new BaseSubscriber<List<PostsModel>>() {
+                .subscribe(new BaseSubscriber<ProfileUserList>() {
                     @Override
-                    public void onNext(List<PostsModel> response) {
-                        Log.e("RESPONSE:::", "Size===" + response.size());
+                    public void onNext(ProfileUserList response) {
+                        Timber.e("Got user details");
                         //     followers.setText(String.valueOf(response.size()));
+                        profileData(response);
                     }
                 });
     }
 
-//   http://54.164.58.140/posts.php?follower=2
+    private void profileData(ProfileUserList response) {
+        username.setText(response.getData().getUserNickName());
+        about.setText(response.getData().getAboutMe());
+        total_posts_counter.setText(response.getData().getPosts());
+        followers_counter.setText(response.getData().getFollowers());
+        following_counter.setText(response.getData().getFollowing());
+        age.setText(response.getData().getUserDateOfBirth());
+        gender.setText(response.getData().getGender());
+        location.setText(response.getData().getLocation());
+    }
+
 
 }

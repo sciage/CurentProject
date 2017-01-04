@@ -20,7 +20,10 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
+import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.MainNavDrawer;
+import in.voiceme.app.voiceme.infrastructure.MySharedPreferences;
+import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
 public class ChangeProfileActivity extends BaseActivity implements View.OnClickListener {
@@ -138,5 +141,28 @@ public class ChangeProfileActivity extends BaseActivity implements View.OnClickL
         if (viewId == R.id.changeimage){
             changeAvatar();
         }
+    }
+
+    private void getData() throws Exception {
+        application.getWebService()
+                .getUserProfile(MySharedPreferences.getUserId(preferences))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<ProfileUserList>() {
+                    @Override
+                    public void onNext(ProfileUserList response) {
+                        Timber.e("Got user details");
+                        //     followers.setText(String.valueOf(response.size()));
+                        profileData(response);
+                    }
+                });
+    }
+
+
+    private void profileData(ProfileUserList response) {
+        username.setText(response.getData().getUserNickName());
+        aboutme.setText(response.getData().getAboutMe());
+        userAge.setText(response.getData().getUserDateOfBirth());
+        userGender.setText(response.getData().getGender());
+        userLocation.setText(response.getData().getLocation());
     }
 }

@@ -22,6 +22,7 @@ public interface WebService {
     @GET("posts.php")
     Observable<List<PostsModel>> getLatestFeed();
 
+    // Todo donot know about this call
     @GET("posts.php")
     Observable<List<PostsModel>> getFollowers(@Query("follower") String user_id);
 
