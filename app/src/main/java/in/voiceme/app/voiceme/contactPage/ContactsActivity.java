@@ -1,35 +1,34 @@
 package in.voiceme.app.voiceme.contactPage;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
 
-import com.amazonaws.mobileconnectors.lambdainvoker.LambdaFunctionException;
-import com.amazonaws.mobileconnectors.lambdainvoker.LambdaInvokerFactory;
-import com.amazonaws.regions.Regions;
 import com.digits.sdk.android.AuthCallback;
 import com.digits.sdk.android.Digits;
 import com.digits.sdk.android.DigitsAuthButton;
 import com.digits.sdk.android.DigitsException;
 import com.digits.sdk.android.DigitsSession;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterAuthToken;
 import com.twitter.sdk.android.core.TwitterCore;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
+import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.MainNavDrawer;
-import in.voiceme.app.voiceme.login.account.AccountManager;
+import in.voiceme.app.voiceme.infrastructure.MySharedPreferences;
+import in.voiceme.app.voiceme.userpost.BaseResponse;
 import io.fabric.sdk.android.Fabric;
+import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
-public class ContactsActivity extends BaseActivity {
+import static in.voiceme.app.voiceme.infrastructure.Constants.YES;
+
+public class ContactsActivity extends BaseActivity implements View.OnClickListener {
     private static final String TWITTER_KEY = "I6Zt8s6wSZzMtnPqun18Raw0T";
     private static final String TWITTER_SECRET = "Jb92MdEm2GmK40RMqZvoxmjTFR4aUipanCOYr3BHloy43cvOsA";
+    private Button agreeTerms;
+    private DigitsAuthButton digitsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +40,13 @@ public class ContactsActivity extends BaseActivity {
         getSupportActionBar().setTitle("Home");
         setNavDrawer(new MainNavDrawer(this));
 
+        agreeTerms = (Button) findViewById(R.id.button_user_agree);
+
+        agreeTerms.setOnClickListener(this);
         // Create a digits button and callback
-        DigitsAuthButton digitsButton = (DigitsAuthButton) findViewById(R.id.auth_button);
+        digitsButton = (DigitsAuthButton) findViewById(R.id.auth_button);
+
+        digitsButton.setText(R.string.digits_contact);
         digitsButton.setCallback(new AuthCallback() {
 
             @Override
@@ -50,24 +54,11 @@ public class ContactsActivity extends BaseActivity {
                 Timber.v("DIGITS SUCCESSFUL authentication");
                 Timber.v("phone number: " + phoneNumber);
 
-                TwitterAuthToken authToken = (TwitterAuthToken)session.getAuthToken();
-                String value = authToken.token + ";" + authToken.secret;
-                Map<String, String> logins = new HashMap<String, String>();
-                logins.put("www.digits.com", value);
-
-                // Store the data in Amazon Cognito
-                AccountManager.getInstance().getCredentialsProvider().setLogins(logins);
-
-                // Send the data to Amazon Lambda
-                // 1. Setup a PhoneInfo (containing relevant information)
-                PhoneInfo ph = new PhoneInfo();
-                ph.setPhoneNumber(phoneNumber);
-                ph.setId(session.getId());
-                ph.setAccessToken(authToken.token);
-                ph.setAccessTokenSecret(authToken.secret);
-
-                // 2. Send the data to the function sendData to parse the request asynchronously
-                sendData(ph);
+                try {
+                    sendContact(phoneNumber);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
 
@@ -78,58 +69,29 @@ public class ContactsActivity extends BaseActivity {
             }
         });
 
-        // Create a Twitter login button and callback
+        digitsButton.setVisibility(View.GONE);
 
     }
 
-    private void sendData(PhoneInfo phoneInfo){
-
-        Timber.d( "LAMBDA: Sending Data");
-        // 1. Setup a provider to allow posting to Amazon Lambda
-
-        // 2. Setup a LambdaInvoker Factory w/ provider data
-        LambdaInvokerFactory factory = new LambdaInvokerFactory(
-                this.getApplicationContext(),
-                Regions.US_EAST_1,
-                AccountManager.getInstance().getCredentialsProvider());
-
-        // 3. Create an interface (see MyInterface)
-        final MyInterface myInterface = factory.build(MyInterface.class);
-
-        // 3. Send the data to the "digitsLogin" function on Amazon Lambda.
-        // Note: Make sure it is done in background, not in main thread.
-        new AsyncTask<PhoneInfo, Void, String>() {
-
-            @Override
-            protected String doInBackground(PhoneInfo... params) {
-                // invoke "echo" method. In case it fails, it will throw a
-                // LambdaFunctionException.
-                try {
-                    Timber.d("LAMBDA: Attempting to send data");
-                    return myInterface.digitsLogin(params[0]);
-                } catch (LambdaFunctionException lfe) {
-                    Log.e("amazon", "Failed to invoke echo", lfe);
-                    return null;
-                }
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                if (result == null) {
-                    Timber.d( "LAMBDA: Response from request is null");
-                    return;
-                } else {
-                    Timber.d( "LAMBDA: Received result");
-                    Timber.d( result);
-                }
-                // Do a toast
-                Timber.d( "LAMBDA: Making Toast with result");
-                Toast.makeText(ContactsActivity.this, result, Toast.LENGTH_LONG).show();
-                // Clear session on logout
-                Digits.clearActiveSession();
-
-            }
-        }.execute(phoneInfo);
-
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.button_user_agree){
+            MySharedPreferences.checkContactSent(preferences, YES);
+            digitsButton.setVisibility(View.VISIBLE);
+        }
     }
+
+    private void sendContact(String phoneNumber) throws Exception {
+                application.getWebService()
+                .registerMobile(MySharedPreferences.getUserId(preferences), phoneNumber)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseSubscriber<BaseResponse>() {
+                    @Override
+                    public void onNext(BaseResponse response) {
+                        Timber.e("Successfully logged in" + response.getStatus());
+
+                    }
+                });
+    }
+
 }

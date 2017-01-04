@@ -9,12 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Response {
 
-    @SerializedName("status")
-    @Expose
-    private Integer status;
-    @SerializedName("msg")
-    @Expose
-    private String msg;
+    @SerializedName("status") @Expose private Integer status;
+    @SerializedName("msg") @Expose private String msg;
 
     public Integer getStatus() {
         return status;

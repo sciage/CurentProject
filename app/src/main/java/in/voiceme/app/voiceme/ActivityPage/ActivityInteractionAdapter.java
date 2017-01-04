@@ -206,7 +206,7 @@ class ActivityInteractionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             intent.putExtra(Constants.POST_BACKGROUND, dataItem.getIdPosts());
             view.getContext().startActivity(intent);
         }
-        
+
         @Override
         protected void likeCounterClicked(View v) {
             Intent intent = new Intent(v.getContext(), UserLikeCounterActivity.class);

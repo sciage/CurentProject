@@ -6,6 +6,7 @@ package in.voiceme.app.voiceme.infrastructure;
  */
 public interface Constants {
 
+    String YES = "YES";
     String GOOGLE_LOGIN = "accounts.google.com";
     String FACEBOOK_LOGIN = "graph.facebook.com";
 
@@ -24,4 +25,6 @@ public interface Constants {
     String CATEGORY = "CATEGORY";
 
     String POST_BACKGROUND = "POST_BACKGROUND";
+
+    String SENT_CONTACT = "SENT_CONTACT";
 }

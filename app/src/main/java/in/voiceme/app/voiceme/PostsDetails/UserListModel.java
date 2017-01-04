@@ -5,11 +5,13 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import in.voiceme.app.voiceme.login.AbstractResponse;
+
 /**
  * Created by harish on 1/3/2017.
  */
 
-public class UserListModel implements Parcelable {
+public class UserListModel extends AbstractResponse implements Parcelable {
 
     public static final Creator<UserListModel> CREATOR = new Creator<UserListModel>() {
         @Override

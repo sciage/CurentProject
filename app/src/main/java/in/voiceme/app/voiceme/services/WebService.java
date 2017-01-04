@@ -5,7 +5,11 @@ import android.net.Uri;
 import java.util.List;
 
 import in.voiceme.app.voiceme.PostsDetails.UserSuperList;
+import in.voiceme.app.voiceme.ProfilePage.FollowerUserList;
+import in.voiceme.app.voiceme.ProfilePage.ProfileUserList;
+import in.voiceme.app.voiceme.contactPage.AddContactResponse;
 import in.voiceme.app.voiceme.login.LoginResponse;
+import in.voiceme.app.voiceme.userpost.BaseResponse;
 import in.voiceme.app.voiceme.userpost.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -74,5 +78,47 @@ public interface WebService {
     @GET("get_likers.php")
     Observable<UserSuperList> getInteractionPosts(
             @Query("id_posts") String id_posts );
+
+    @FormUrlEncoded
+    @POST("register_mobile.php")
+    Observable<BaseResponse> registerMobile(
+            @Field("id_user_name") String user_id,
+            @Field("phone_number") String phone_number
+    );
+
+    // Todo adding all contacts mobile left
+    @FormUrlEncoded
+    @POST("register_user_contacts.php")
+    Observable<AddContactResponse> addAllContacts(
+            @Field("id_user_name") String user_id,
+            @Field("contacts") String contacts
+    );
+
+    // Todo adding follower mobile left. Action = add or Action = remove
+    @FormUrlEncoded
+    @POST("follower.php")
+    Observable<Response> addFollower(
+            @Field("user_id") String user_id,
+            @Field("follower_id") String follower_id,
+            @Field("action") String action
+    );
+
+
+    // Todo get list of users who follow the user. meaning I am following these users
+    @GET("follower.php")
+    Observable<FollowerUserList> getUserFollow(@Query("feeling_id") String feeling_id);
+
+    // Todo get list of users who the user follows. meaning users following me
+    @GET("follower.php")
+    Observable<FollowerUserList> getUserFollowing(@Query("feeling_id") String feeling_id);
+
+
+    // Todo show complete User Profile Details
+    @GET("get_user.php")
+    Observable<ProfileUserList> getUserProfile(@Query("user_id") String user_id);
+
+
+
+
 
 }
