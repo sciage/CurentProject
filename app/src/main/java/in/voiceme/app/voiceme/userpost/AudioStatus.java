@@ -1,6 +1,7 @@
 package in.voiceme.app.voiceme.userpost;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
@@ -9,16 +10,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+
 import cafe.adriel.androidaudiorecorder.AndroidAudioRecorder;
 import cafe.adriel.androidaudiorecorder.model.AudioChannel;
 import cafe.adriel.androidaudiorecorder.model.AudioSampleRate;
 import cafe.adriel.androidaudiorecorder.model.AudioSource;
-import in.voiceme.app.voiceme.ActivityPage.MainActivity;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.MainNavDrawer;
-import in.voiceme.app.voiceme.infrastructure.MySharedPreferences;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.android.schedulers.AndroidSchedulers;
 import timber.log.Timber;
 
@@ -27,6 +31,7 @@ public class AudioStatus extends BaseActivity {
     private TextView textView_feeling;
     private TextView textView_status;
     private Button post_status;
+    private String audioFileUrl;
 
     private String category;
     private String feeling;
@@ -77,27 +82,13 @@ public class AudioStatus extends BaseActivity {
                 if (category == null || feeling == null || textStatus == null) {
                     Toast.makeText(AudioStatus.this, "Please select all categories to Post Status", Toast.LENGTH_SHORT).show();
                 }
+                uploadFile(Uri.parse(AUDIO_FILE_PATH));
                 // network call from retrofit
-                try {
-                    application.getWebService().postStatus(MySharedPreferences.getUserId(preferences),
-                            textStatus, category, feeling, "")
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new BaseSubscriber<Response>() {
-                                @Override
-                                public void onNext(Response response) {
-                                    Timber.e("Response " + response.getStatus() + "===" + response.getMsg());
-                                    if (response.getStatus() == 1){
-                                        Toast.makeText(AudioStatus.this, "Successfully posted status", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(AudioStatus.this, MainActivity.class));
-                                    }
-                                }
-                            });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -148,5 +139,43 @@ public class AudioStatus extends BaseActivity {
 
                 // Start recording
                 .record();
+    }
+
+    private void uploadFile(Uri fileUri) {
+        // create upload service client
+        // https://github.com/iPaulPro/aFileChooser/blob/master/aFileChooser/src/com/ipaulpro/afilechooser/utils/FileUtils.java
+        // use the FileUtils to get the actual file by uri
+        File file = new File(String.valueOf(fileUri));
+
+        // create RequestBody instance from file
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+        // finally, execute the request
+        try {
+            application.getWebService()
+                    .uploadFile(body)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscriber<UploadFilePojo>() {
+                        @Override
+                        public void onNext(UploadFilePojo response) {
+                            Timber.d("file url"+response.getFileUrl());
+                            setAudioFileUrl(response.getFileUrl());
+                            Toast.makeText(AudioStatus.this, "file url" + response.getFileUrl(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void setAudioFileUrl(String audioFileUrl){
+        this.audioFileUrl = audioFileUrl;
     }
 }
