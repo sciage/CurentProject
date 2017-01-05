@@ -11,7 +11,6 @@ import in.voiceme.app.voiceme.contactPage.AddContactResponse;
 import in.voiceme.app.voiceme.login.LoginResponse;
 import in.voiceme.app.voiceme.userpost.BaseResponse;
 import in.voiceme.app.voiceme.userpost.Response;
-import in.voiceme.app.voiceme.userpost.UploadFilePojo;
 import okhttp3.MultipartBody;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -127,7 +126,7 @@ public interface WebService {
     @Headers("Accept: multipart/form-data")
     @Multipart
     @POST("audio_upload/index.php")
-    Observable<UploadFilePojo> uploadFile(@Part MultipartBody.Part file);
+    Observable<String> uploadFile(@Part MultipartBody.Part file);
 
 
 
