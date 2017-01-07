@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.yalantis.ucrop.UCrop;
@@ -17,7 +18,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
@@ -35,7 +35,7 @@ public class ChangeProfileActivity extends BaseActivity implements View.OnClickL
     private EditText userGender;
     private EditText userLocation;
 
-    private CircleImageView avatarView;
+    private ImageView avatarView;
     private View avatarProgressFrame;
     private File tempOutputFile; //storing the image temporarily while we crop it.
 
@@ -52,12 +52,17 @@ public class ChangeProfileActivity extends BaseActivity implements View.OnClickL
         userGender = (EditText) findViewById(R.id.edittext_profile_gender);
         userLocation = (EditText) findViewById(R.id.edittext_profile_location);
 
-        avatarView = (CircleImageView) findViewById(R.id.changeimage);
+        avatarView = (ImageView) findViewById(R.id.changeimage);
         avatarProgressFrame = findViewById(R.id.activity_profilechange_avatarProgressFrame);
         tempOutputFile = new File(getExternalCacheDir(), "temp-image.jpg");
 
         avatarView.setOnClickListener(this);
 
+        try {
+            getData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         avatarProgressFrame.setVisibility(View.GONE);
 
     }

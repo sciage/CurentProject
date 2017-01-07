@@ -1,5 +1,8 @@
 package in.voiceme.app.voiceme.services;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -41,10 +44,14 @@ public class ServiceFactory {
                 })
                 .build();
 
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.createWithScheduler(Schedulers.newThread()))
                 .build().create(clazz);
     }

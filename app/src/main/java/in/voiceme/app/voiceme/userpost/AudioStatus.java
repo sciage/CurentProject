@@ -3,6 +3,7 @@ package in.voiceme.app.voiceme.userpost;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,10 +26,12 @@ import cafe.adriel.androidaudiorecorder.AndroidAudioRecorder;
 import cafe.adriel.androidaudiorecorder.model.AudioChannel;
 import cafe.adriel.androidaudiorecorder.model.AudioSampleRate;
 import cafe.adriel.androidaudiorecorder.model.AudioSource;
+import in.voiceme.app.voiceme.ActivityPage.MainActivity;
 import in.voiceme.app.voiceme.R;
 import in.voiceme.app.voiceme.infrastructure.BaseActivity;
 import in.voiceme.app.voiceme.infrastructure.BaseSubscriber;
 import in.voiceme.app.voiceme.infrastructure.MainNavDrawer;
+import in.voiceme.app.voiceme.infrastructure.MySharedPreferences;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -47,6 +50,7 @@ public class AudioStatus extends BaseActivity {
     private String textStatus;
     private FFmpeg ffmpeg;
     private ProgressDialog progressDialog;
+    private int audioDuration;
 
     private static final int REQUEST_RECORD_AUDIO = 0;
     private static final String AUDIO_FILE_PATH =
@@ -191,6 +195,7 @@ public class AudioStatus extends BaseActivity {
             //    Toast.makeText(this, AUDIO_FILE_PATH, Toast.LENGTH_SHORT).show();
            //     Timber.e("file location" + AUDIO_FILE_PATH);
 
+                getAudioFileDuration(AUDIO_FILE_PATH);
                 String[] command = convertAudioCommand.split(" ");
                 execFFmpegBinary(command);
 
@@ -217,6 +222,15 @@ public class AudioStatus extends BaseActivity {
                 Toast.makeText(this, "Data returned: " + result, Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    private void getAudioFileDuration(String audioFilePath) {
+        Uri uri = Uri.parse(audioFilePath);
+        MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+        mmr.setDataSource(AudioStatus.this,uri);
+        String durationStr = mmr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+        int millSecond = Integer.parseInt(durationStr);
+        audioDuration = millSecond;
     }
 
     public void recordAudio(View v) {
@@ -259,9 +273,15 @@ public class AudioStatus extends BaseActivity {
                         @Override
                         public void onNext(String response) {
                             Timber.d("file url"+ response);
-                            setAudioFileUrl(response);
-                            progressDialog.dismiss();
                             Toast.makeText(AudioStatus.this, "file url" + response, Toast.LENGTH_SHORT).show();
+                            setAudioFileUrl(response);
+
+                        }
+                        @Override
+                        public void onCompleted() {
+                            progressDialog.dismiss();
+
+                            postStatus();
                         }
                     });
         }
@@ -269,6 +289,26 @@ public class AudioStatus extends BaseActivity {
             e.printStackTrace();
         }
 
+    }
+
+    private void postStatus() {
+        // network call from retrofit
+        try {
+            application.getWebService().postStatus(MySharedPreferences.getUserId(preferences),
+                    textStatus, category, feeling, audioFileUrl)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new BaseSubscriber<Response>() {
+                        @Override
+                        public void onNext(Response response) {
+                            Timber.e("Response " + response.getStatus() + "===" + response.getMsg());
+                            if (response.getStatus() == 1){
+                                startActivity(new Intent(AudioStatus.this, MainActivity.class));
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setAudioFileUrl(String audioFileUrl){

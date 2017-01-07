@@ -53,7 +53,7 @@ public interface WebService {
                                     @Query("listen") int listen);
 
     @FormUrlEncoded
-    @POST("login.php")
+    @POST("login_new.php")
     Observable<LoginResponse> login(
             @Field("name") String name,
             @Field("email") String email,
